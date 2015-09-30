@@ -1,0 +1,71 @@
+html {
+  font-size: 13px;
+  height: 100%;
+}
+
+body {
+  font-family: "SF UI Text", "Helvetica Neue", "Helvetica", sans-serif;
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.btn, h1, h2, h3, h4, h5, h6 {
+  font-weight: 500;
+}
+
+.code {
+  font-family: "Source Code Pro", Consolas, Monaco, "Courier New", monospace;
+  position: absolute;
+  top: 3rem;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.code--panes {
+  width: 100%;
+  height: 75%;
+  display: flex;
+  border-bottom: 1px solid #ccc;
+}
+
+.code--console {
+  position: absolute;
+  height: 25%;
+  bottom: 0;
+  padding: .5rem;
+}
+
+.code--editor {
+  flex: 1;
+  background: white;
+  font-size: 13px;
+  overflow: auto;
+  border-right: 1px solid #ccc;
+}
+
+.code--editor table {
+  width: 100%;
+}
+
+.code--editor td, .code--editor th {
+  padding: .25rem .75rem;
+}
+
+.code--editor th {
+  border-bottom: 1px solid #ccc;
+}
+
+.code--editor tbody td {
+}
+
+.code--editor tbody td:first-child {
+  width: 3rem;
+  background-color: #f0f0f0;
+  color: #999;
+  text-align: right;
+  vertical-align: top;
+}
