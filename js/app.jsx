@@ -29,8 +29,8 @@ var App = React.createClass({
     return (
       <div className="code">
         <div className="code--panes">
-          {this.state.codes.map(function(code) { return (
-            <Pane name={code.name} lines={code.lines} />
+          {this.state.codes.map((code, i) => { return (
+            <Pane key={i} name={code.name} lines={code.lines} step={this.state.steps[this.state.step]} />
           )})}
         </div>
       </div>

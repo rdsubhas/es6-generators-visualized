@@ -1,6 +1,15 @@
 {
   "codes": [{
-    "name": "generator",
+    "name": "user function",
+    "lines": [
+      "var fib = fibonacci();",
+      "for (var i=0; i<10; i++) {",
+      "  var next = fib.next();",
+      "  console.log(next.value);",
+      "}"
+    ]
+  }, {
+    "name": "generator function",
     "lines": [
       "function* fibonacci() {",
       "  var fn1 = 1;",
@@ -13,16 +22,8 @@
       "  }",
       "}"
     ]
-  }, {
-    "name": "user",
-    "lines": [
-      "var fib = fibonacci();",
-      "for (var i=0; i<10; i++) {",
-      "  var next = fib.next();",
-      "  console.log(next.value);",
-      "}"
-    ]
   }],
-  "steps": [{
-  }]
+  "steps": [
+    [0, [0, "fibonacci()"], [0]]
+  ]
 }

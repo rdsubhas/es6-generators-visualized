@@ -1,11 +1,10 @@
-var gulp = require('gulp');
+var gulp       = require('gulp');
 var browserify = require('gulp-browserify');
-var connect = require('gulp-connect');
-var watch = require('gulp-watch');
-var rename = require('gulp-rename');
-var sass = require('gulp-sass');
-
-var port = process.env.port || 8000;
+var connect    = require('gulp-connect');
+var watch      = require('gulp-watch');
+var rename     = require('gulp-rename');
+var sass       = require('gulp-sass');
+var port       = process.env.port || 8000;
 
 gulp.task('connect', function () {
   connect.server({
@@ -44,8 +43,7 @@ gulp.task('watch', function () {
   gulp.watch(['css/**/*.scss'], function () {
     gulp.start('sass');
   });
-  gulp.watch('index.html', ['reload']);
-  gulp.watch('build/**/*', ['reload']);
+  gulp.watch([ 'index.html', 'build/**/*', 'data/*' ], ['reload']);
 });
 
 gulp.task('default', ['browserify', 'sass']);
