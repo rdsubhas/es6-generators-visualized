@@ -6,88 +6,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="ES6 Generators Visualized">
   <title>ES6 Generators Visualized</title>
-  <link href="http://d2v52k3cl9vedd.cloudfront.net/basscss/7.0.4/basscss.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-  <link href="./style.css" rel="stylesheet">
+  <link href="//d2v52k3cl9vedd.cloudfront.net/basscss/7.0.4/basscss.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link href="./build/app.css" rel="stylesheet">
 </head>
 <body>
 
-  <nav class="clearfix white bg-black">
+  <nav class="clearfix white bg-black fixed col-12">
     <div class="left">
-      <a href="#" class="btn py2"><i class="fa fa-github fa-lg"></i></a>
-      <a href="#" class="btn h3 py2 mxn1">ES6 Generators Visualized</a>
+      <a href="#" class="btn"><i class="fa fa-github fa-lg"></i></a>
+      <a href="#" class="btn h3 mxn1">ES6 Generators Visualized</a>
     </div>
     <div class="right">
-      <a href="#" class="btn py2">Fibonacci</a>
-      <a href="#" class="btn py2">Ping Pong</a>
-      <a href="#" class="btn py2">Map Reduce</a>
-      <a href="#" class="btn py2">Binary Tree</a>
-      <a href="#" class="btn py2">Promisify</a>
+      <a href="#" class="btn">Fibonacci</a>
+      <a href="#" class="btn">Ping Pong</a>
+      <a href="#" class="btn">Map Reduce</a>
+      <a href="#" class="btn">Binary Tree</a>
+      <a href="#" class="btn">Promisify</a>
     </div>
   </nav>
 
-  <div class="code">
-    <div class="code--panes">
-      <div class="code--editor">
-        <table>
-          <thead>
-            <tr>
-              <th colspan="2">file1.js</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Test</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Test</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Test</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Test</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      
-      <div class="code--editor">
-        <table>
-          <thead>
-            <tr>
-              <th colspan="2">file1.js</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Test</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Test</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Test</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Test</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+  <div id="app"></div>
 
-    <div class="code--console">
-      Console output
-    </div>
-  </div>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js"></script>
+  <script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script type="text/javascript" src="./build/app.js"></script>
 </body>
 </html>

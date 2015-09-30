@@ -1,0 +1,24 @@
+{
+  "name": "es6-genvis",
+  "version": "0.0.1",
+  "private": true,
+  "engines": {
+    "node": "4.x"
+  },
+  "devDependencies": {
+    "react"          : "~0.13.3",
+    "reqwest"        : "~2.0.4",
+    "gulp"           : "~3.9.0",
+    "gulp-browserify": "~0.5.1",
+    "gulp-rename"    : "~1.2.2",
+    "gulp-watch"     : "~4.3.5",
+    "gulp-connect"   : "~2.2.0",
+    "gulp-sass"      : "~2.0.4",
+    "babelify"       : "~6.3.0",
+    "browserify"     : "~11.2.0",
+    "reactify"       : "~1.1.1"
+  },
+  "scripts": {
+    "start": "gulp serve"
+  }
+}

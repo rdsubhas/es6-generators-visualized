@@ -1,0 +1,28 @@
+{
+  "codes": [{
+    "name": "generator",
+    "lines": [
+      "function* fibonacci() {",
+      "  var fn1 = 1;",
+      "  var fn2 = 1;",
+      "  while (true) {",
+      "    var current = fn2;",
+      "    fn2 = fn1;",
+      "    fn1 = fn1 + current;",
+      "    yield current;",
+      "  }",
+      "}"
+    ]
+  }, {
+    "name": "user",
+    "lines": [
+      "var fib = fibonacci();",
+      "for (var i=0; i<10; i++) {",
+      "  var next = fib.next();",
+      "  console.log(next.value);",
+      "}"
+    ]
+  }],
+  "steps": [{
+  }]
+}
