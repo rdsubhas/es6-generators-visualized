@@ -6,7 +6,7 @@ var Pane = React.createClass({
   getDefaultProps: function() {
     return {
       active: false,
-      name: 'filename',
+      name: '',
       lines: [],
       line: 0
     }
