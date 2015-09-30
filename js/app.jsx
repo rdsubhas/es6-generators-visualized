@@ -26,12 +26,17 @@ var App = React.createClass({
   },
 
   render: function() {
+    var currentStep = this.state.steps[this.state.step];
     return (
       <div className="code">
         <div className="code--panes">
-          {this.state.codes.map((code, i) => { return (
-            <Pane key={i} name={code.name} lines={code.lines} step={this.state.steps[this.state.step]} />
-          )})}
+          {this.state.codes.map((code, i) => {
+            var lineStep = currentStep[i];
+            return (
+              <Pane key={i} name={code.name} lines={code.lines} 
+                    active={lineStep.active} line={lineStep.line} />
+              )
+          })}
         </div>
       </div>
     );

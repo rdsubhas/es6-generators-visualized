@@ -1,16 +1,20 @@
-import React from 'react';
+import React from 'react/addons';
+
+var cx = React.addons.classSet;
 
 var Pane = React.createClass({
   getDefaultProps: function() {
     return {
+      active: false,
       name: 'filename',
-      lines: []
+      lines: [],
+      line: 0
     }
   },
 
   render: function() {
     return (
-      <div className="code--pane">
+      <div className={cx({ 'code--pane': true, 'active': this.props.active })}>
         <table className="code--table">
           <thead>
             <tr>
@@ -18,8 +22,8 @@ var Pane = React.createClass({
             </tr>
           </thead>
           <tbody>
-            {this.props.lines.map(function(line, i) { return (
-              <tr key={i}>
+            {this.props.lines.map((line, i) => { return (
+              <tr key={i} className={cx({ 'active': i == this.props.line })}>
                 <td>{i+1}</td>
                 <td>{line}</td>
               </tr>

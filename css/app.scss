@@ -57,28 +57,40 @@ nav .btn {
   font-size: 13px;
   overflow: auto;
   border-right: 1px solid #ccc;
-}
 
-.code--table {
-  width: 100%;
+  .code--table {
+    width: 100%;
 
-  td, th {
-    padding: .25rem .75rem;
+    td, th {
+      padding: .25rem .75rem;
+    }
+
+    th {
+      border-bottom: 1px solid #ccc;
+    }
+
+    td:first-child {
+      width: 3rem;
+      background-color: #f0f0f0;
+      color: #999;
+      text-align: right;
+      vertical-align: top;
+    }
+
+    td:last-child {
+      white-space: pre;
+    }
+
+    tr.active {
+      td:first-child { background-color: #E0E0E0; }
+      td:last-child { background-color: #CFD8DC; }
+    }
   }
 
-  thead th {
-    border-bottom: 1px solid #ccc;
-  }
-
-  tbody td:first-child {
-    width: 3rem;
-    background-color: #f0f0f0;
-    color: #999;
-    text-align: right;
-    vertical-align: top;
-  }
-
-  tbody td:last-child {
-    white-space: pre;
+  &.active {
+    tr.active {
+      td:first-child { background-color: #FFF59D; }
+      td:last-child { background-color: #FFF176; }
+    }
   }
 }

@@ -24,6 +24,7 @@
     ]
   }],
   "steps": [
-    [0, [0, "fibonacci()"], [0]]
+    [{ "line": 0, "active": true }, { "line": -1 }],
+    [{ "line": 0 }, { "line": 0, "active": true }]
   ]
 }
