@@ -77,7 +77,7 @@ body {
       padding: 0.25rem 0.75rem;
       vertical-align: middle;
       white-space: pre;
-      transition: background-color 0.3s; }
+      transition: background-color 0.2s; }
     .code--pane .code--table th {
       border-bottom: 1px solid #ccc; }
     .code--pane .code--table td:first-child {
