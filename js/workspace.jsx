@@ -5,8 +5,6 @@ import Pane from './pane.jsx';
 import Controls from './controls.jsx';
 var cx = React.addons.classSet;
 
-var INTERVAL = 500;
-
 var Workspace = React.createClass({
   mixins: [TimerMixin],
 
@@ -22,9 +20,12 @@ var Workspace = React.createClass({
     return {
       step: 0,
       activePane: 0,
-      activeVars: {},
+      activeVars: _.clone(this.props.vars || {}),
       positions: [0, null, null],
-      playing: false
+
+      playing: false,
+      playSpeed: 500,
+      pauseOnPaneChange: true
     }
   },
 
@@ -33,7 +34,11 @@ var Workspace = React.createClass({
   },
 
   doTogglePlay: function() {
-    this.setState({ playing: !this.state.playing });
+    this.setState({ playing: !this.state.playing, playSpeed: 500, pauseOnPaneChange: true });
+  },
+
+  doPlayEnd: function() {
+    this.setState({ playing: !this.state.playing, playSpeed: 300, pauseOnPaneChange: false });
   },
 
   doStepFirst: function() {
@@ -41,22 +46,25 @@ var Workspace = React.createClass({
   },
 
   doStepNext: function() {
-    var stepData = this.props.steps[this.state.step + 1];
-    this._stepNext(stepData ? 1 : 2);
+    if (this.props.panes.length > 0 && this.state.step < this.props.steps.length-1) {
+      var state = this._computeNext(_.clone(this.state));
+      this.setState(state);
+    }
+  },
+
+  doStepBack: function() {
+    if (this.props.panes.length > 0 && this.state.step > 0) {
+      var state = this.getInitialState();
+      for (var i=0; i<this.state.step-1; i++)
+        this._computeNext(state);
+      this.setState(state);
+    }
   },
 
   _reset: function(props) {
     var state = this.getInitialState();
     state.activeVars = _.clone(props.vars);
     this.setState(state);
-  },
-
-  _stepNext: function(hops) {
-    if (this.props.panes.length > 0 && this.state.step < this.props.steps.length-hops) {
-      var state = _.clone(this.state);
-      for (var i=0; i<hops; i++) _.merge(state, this._computeNext(state));
-      this.setState(state);
-    }
   },
 
   _computeNext: function(oldState) {
@@ -67,26 +75,27 @@ var Workspace = React.createClass({
     var vars = stepData[2];
     positions[activePane] = stepData[1];
 
-    return {
+    return _.merge(oldState, {
       step: step,
       activePane: activePane,
       positions: positions,
       activeVars: _.merge(oldState.activeVars, vars),
-      playing: (activePane == oldState.activePane ? oldState.playing : false)
-    };
+      playing: (oldState.pauseOnPaneChange && activePane != oldState.activePane ? false : oldState.playing)
+    });
   },
 
   render: function() {
     if (this.state.playing) {
       this.setTimeout(() => {
-        this._stepNext(1);
-      }, INTERVAL);
+        this.doStepNext();
+      }, this.state.playSpeed);
     }
 
     return (
       <div className="code--workspace">
-        <Controls playing={this.state.playing} doTogglePlay={this.doTogglePlay} 
-          doStepNext={this.doStepNext} doStepFirst={this.doStepFirst} />
+        <Controls playing={this.state.playing} step={this.state.step} numSteps={this.props.steps.length}
+          doTogglePlay={this.doTogglePlay} doPlayEnd={this.doPlayEnd} 
+          doStepNext={this.doStepNext} doStepFirst={this.doStepFirst} doStepBack={this.doStepBack} />
         <div className="code--panes">
           {this.props.panes.map((code, i) => { return (
               <Pane key={i} name={code.name} lines={code.lines} active={this.state.activePane == i}
