@@ -52,33 +52,28 @@ var Workspace = React.createClass({
   },
 
   _stepNext: function(hops) {
-    if (this.state.step < this.props.steps.length-hops) {
-      this._loadStepState(this.state.step + hops);
+    if (this.props.panes.length > 0 && this.state.step < this.props.steps.length-hops) {
+      var state = _.clone(this.state);
+      for (var i=0; i<hops; i++) _.merge(state, this._computeNext(state));
+      this.setState(state);
     }
   },
 
-  _loadStepState: function(step) {
-    if (this.props.panes.length < 1) return;
+  _computeNext: function(oldState) {
+    var step = oldState.step + 1;
     var stepData = this.props.steps[step];
+    var positions = oldState.positions;
+    var activePane = stepData[0];
+    var vars = stepData[2];
+    positions[activePane] = stepData[1];
 
-    if (stepData == null) {
-      this.setState({
-        playing: false,
-        step: step
-      });
-    } else {
-      var positions = this.state.positions;
-      var activePane = stepData[0];
-      var vars = stepData[2];
-      positions[activePane] = stepData[1];
-
-      this.setState({
-        step: step,
-        activePane: activePane,
-        positions: positions,
-        activeVars: _.merge(this.state.activeVars, vars)
-      });
-    }
+    return {
+      step: step,
+      activePane: activePane,
+      positions: positions,
+      activeVars: _.merge(oldState.activeVars, vars),
+      playing: (activePane == oldState.activePane ? oldState.playing : false)
+    };
   },
 
   render: function() {
