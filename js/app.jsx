@@ -4,7 +4,7 @@ import React from 'react';
 import Nav from './nav.jsx';
 import Workspace from './workspace.jsx';
 
-function convertLinesToTemplate(lines) {
+function templatify(lines) {
   var regex = /\$\{(.+)\}/;
   var replacement = '<em>$1:\${$1}</em>';
   return lines.map((line) => {
@@ -15,7 +15,7 @@ function convertLinesToTemplate(lines) {
 var App = React.createClass({
   getInitialState: function() {
     return {
-      fileName: './fibonacci.json',
+      tabName: 'fibonacci',
       panes: [],
       steps: [],
       vars: {}
@@ -23,18 +23,18 @@ var App = React.createClass({
   },
 
   componentDidMount: function() {
-    this.loadFile(this.state.fileName);
+    this.doLoadFile(this.state.tabName);
   },
 
-  loadFile: function(fileName) {
+  doLoadFile: function(tabName) {
     reqwest({
-      url: fileName,
+      url: tabName + ".json",
       type: 'json'
     }).then((data) => {
       this.setState({
-        fileName: fileName,
+        tabName: tabName,
         panes: data.panes.map((pane) => {
-          pane.lines = convertLinesToTemplate(pane.lines);
+          pane.lines = templatify(pane.lines);
           return pane;
         }),
         steps: data.steps,
@@ -46,7 +46,7 @@ var App = React.createClass({
   render: function() {
     return (
       <div className="code">
-        <Nav fileName={this.state.fileName} />
+        <Nav tabName={this.state.tabName} doLoadFile={this.doLoadFile} />
         <Workspace panes={this.state.panes} steps={this.state.steps} vars={this.state.vars} />
       </div>
     );

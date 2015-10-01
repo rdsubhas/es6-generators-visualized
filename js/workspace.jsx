@@ -18,10 +18,10 @@ var Workspace = React.createClass({
 
   getInitialState: function() {
     return {
-      step: 0,
+      step: -1,
       activePane: 0,
       activeVars: _.clone(this.props.vars || {}),
-      positions: [0, null, null],
+      positions: [null, null, null],
 
       playing: false,
       playSpeed: 500,
