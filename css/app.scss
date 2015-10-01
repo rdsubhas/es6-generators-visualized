@@ -47,7 +47,7 @@ body {
   user-select: none;
   -webkit-user-select: none;
   position: absolute;
-  background-color: #f0f0f0;
+  background-color: #f9f9f9;
   top: 0;
   bottom: 4rem;
   width: 100%;
@@ -80,7 +80,8 @@ body {
 
 .code--pane {
   flex: 1;
-  background: white;
+  background-color: #f0f0f0;
+  transition: background-color .2s;
   font-size: 13px;
   overflow: auto;
   border-right: 1px solid #ccc;
@@ -105,14 +106,14 @@ body {
       user-select: none;
       -webkit-user-select: none;
       width: 3rem;
-      background-color: #f0f0f0;
+      background-color: #eaeaea;
       color: #999;
       text-align: right;
       vertical-align: top;
 
       i {
         position: absolute;
-        left: .25rem;
+        left: 0;
         line-height: 1.5rem;
         display: none;
       }
@@ -131,12 +132,14 @@ body {
       display: inline-block;
       padding: 0 .5rem;
       border-radius: 2px;
-      background: #666;
+      background-color: #666;
       color: white;
     }
   }
 
   &.active {
+    background-color: white;
+
     tr.active {
       td:first-child { background-color: #FFF59D; color: #000; }
       td:last-child { background-color: #FFF176; }

@@ -19,9 +19,10 @@ var Workspace = React.createClass({
   getInitialState: function() {
     return {
       step: -1,
-      activePane: 0,
+      activePane: null,
       activeVars: _.clone(this.props.vars || {}),
-      positions: [null, null, null],
+      positions: [],
+      highlights: [],
 
       playing: false,
       playSpeed: 500,
@@ -71,16 +72,19 @@ var Workspace = React.createClass({
     var step = oldState.step + 1;
     var stepData = this.props.steps[step];
     var positions = oldState.positions;
+    var highlights = oldState.highlights;
     var activePane = stepData[0];
-    var vars = stepData[2];
     positions[activePane] = stepData[1];
+    var vars = stepData[2];
+    highlights[activePane] = stepData[3];
 
     return _.merge(oldState, {
       step: step,
       activePane: activePane,
       positions: positions,
+      highlights: highlights,
       activeVars: _.merge(oldState.activeVars, vars),
-      playing: (oldState.pauseOnPaneChange && activePane != oldState.activePane ? false : oldState.playing)
+      playing: (oldState.pauseOnPaneChange && activePane != oldState.activePane) ? false : oldState.playing
     });
   },
 
@@ -98,8 +102,9 @@ var Workspace = React.createClass({
           doStepNext={this.doStepNext} doStepFirst={this.doStepFirst} doStepBack={this.doStepBack} />
         <div className="code--panes">
           {this.props.panes.map((code, i) => { return (
-              <Pane key={i} name={code.name} lines={code.lines} active={this.state.activePane == i}
-                line={this.state.positions[i]} vars={this.state.activeVars} />
+              <Pane key={i} name={code.name} 
+                lines={code.lines} line={this.state.positions[i]} active={this.state.activePane == i}
+                vars={this.state.activeVars} highlight={this.state.highlights[i]} />
           )})}
         </div>
       </div>

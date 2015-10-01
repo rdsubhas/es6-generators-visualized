@@ -30,10 +30,10 @@
     "next": null
   },
   "steps": [
-    [0,0],
-    [1,0],
+    [0,0,null,"fibonacci()"],
+    [1,0,null,"fibonacci() {"],
 
-    [0,0],
+    [0,0,null,"fib ="],
     [0,1,{"i":0}],
     [0,2],
 
