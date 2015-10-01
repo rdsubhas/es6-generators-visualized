@@ -22,23 +22,44 @@ body {
   width: 100%;
   height: 100%; }
 
-.code--controls {
+.code--nav {
   user-select: none;
   -webkit-user-select: none;
   position: absolute;
   z-index: 4;
   top: 0;
   width: 100%; }
-  .code--controls .btn {
+  .code--nav .btn {
     line-height: 3rem;
     height: 3rem;
     padding: 0 1rem; }
 
-.code--panes {
+.code--controls {
+  user-select: none;
+  -webkit-user-select: none;
   position: absolute;
+  background-color: #f0f0f0;
+  top: 0;
+  bottom: 4rem;
+  width: 100%; }
+  .code--controls .btn {
+    margin: .5rem 0;
+    line-height: 3rem;
+    text-align: center;
+    height: 3rem;
+    padding: 0 1rem; }
+
+.code--workspace {
+  position: fixed;
   top: 3rem;
   width: 100%;
+  bottom: 0; }
+
+.code--panes {
+  position: absolute;
+  top: 4rem;
   bottom: 0;
+  width: 100%;
   display: flex;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc; }
@@ -54,21 +75,33 @@ body {
     width: 100%; }
     .code--pane .code--table td, .code--pane .code--table th {
       padding: 0.25rem 0.75rem;
-      vertical-align: middle; }
+      vertical-align: middle;
+      white-space: pre;
+      transition: background-color 0.3s; }
     .code--pane .code--table th {
       border-bottom: 1px solid #ccc; }
     .code--pane .code--table td:first-child {
+      user-select: none;
+      -webkit-user-select: none;
       width: 3rem;
       background-color: #f0f0f0;
       color: #999;
       text-align: right;
       vertical-align: top; }
-    .code--pane .code--table td:last-child {
-      white-space: pre; }
     .code--pane .code--table tr.active td:first-child {
       background-color: #E0E0E0; }
     .code--pane .code--table tr.active td:last-child {
       background-color: #CFD8DC; }
+    .code--pane .code--table td em {
+      user-select: none;
+      -webkit-user-select: none;
+      font-style: normal;
+      font-weight: bold;
+      display: inline-block;
+      padding: 0 0.5rem;
+      border-radius: 2px;
+      background: #666;
+      color: white; }
   .code--pane.active tr.active td:first-child {
     background-color: #FFF59D;
     color: #000; }
