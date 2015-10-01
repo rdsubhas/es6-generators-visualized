@@ -14,7 +14,7 @@ var Controls = React.createClass({
     var mainIcon = "fa fa-fw fa-lg " + (this.props.playing ? "fa-pause" : "fa-play");
     var playing = this.props.playing;
     var hasNext = this.props.step < this.props.numSteps-1;
-    var hasPrev = this.props.step >= 0;
+    var hasPrev = this.props.step > 0;
 
     return (
       <nav className="code--controls clearfix">

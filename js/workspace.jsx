@@ -19,7 +19,7 @@ var Workspace = React.createClass({
   getInitialState: function() {
     return {
       step: -1,
-      activePane: null,
+      activePane: 0,
       activeVars: _.clone(this.props.vars || {}),
       positions: [],
       highlights: [],
@@ -48,7 +48,7 @@ var Workspace = React.createClass({
 
   doStepNext: function() {
     if (this.props.panes.length > 0 && this.state.step < this.props.steps.length-1) {
-      var state = this._computeNext(_.clone(this.state));
+      var state = this._computeNext(_.clone(this.state), this.props);
       this.setState(state);
     } else {
       this.setState({ playing: false });
@@ -56,10 +56,10 @@ var Workspace = React.createClass({
   },
 
   doStepBack: function() {
-    if (this.props.panes.length > 0 && this.state.step >= 0) {
+    if (this.props.panes.length > 0 && this.state.step > 0) {
       var state = this.getInitialState();
       for (var i=0; i<this.state.step; i++)
-        this._computeNext(state);
+        this._computeNext(state, this.props);
       this.setState(state);
     }
   },
@@ -67,12 +67,12 @@ var Workspace = React.createClass({
   _reset: function(props) {
     var state = this.getInitialState();
     state.activeVars = _.clone(props.vars);
-    this.setState(state);
+    this.setState(this._computeNext(state, props));
   },
 
-  _computeNext: function(oldState) {
+  _computeNext: function(oldState, props) {
     var step = oldState.step + 1;
-    var stepData = this.props.steps[step];
+    var stepData = props.steps[step];
     var positions = oldState.positions;
     var highlights = oldState.highlights;
     var activePane = stepData[0];
@@ -86,7 +86,7 @@ var Workspace = React.createClass({
       positions: positions,
       highlights: highlights,
       activeVars: _.merge(oldState.activeVars, vars),
-      playing: (oldState.pauseOnPaneChange && activePane != oldState.activePane) ? false : oldState.playing
+      playing: (oldState.pauseOnPaneChange && activePane!=oldState.activePane) ? false : oldState.playing
     });
   },
 
