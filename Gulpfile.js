@@ -1,10 +1,12 @@
 var gulp       = require('gulp');
 var browserify = require('gulp-browserify');
+var uglify     = require('gulp-uglify');
 var connect    = require('gulp-connect');
 var watch      = require('gulp-watch');
 var rename     = require('gulp-rename');
 var sass       = require('gulp-sass');
 var ghPages    = require('gulp-gh-pages');
+var env        = process.env.NODE_ENV || 'development';
 
 gulp.task('connect', function () {
   connect.server({
@@ -27,7 +29,7 @@ gulp.task('browserify', function() {
 
 gulp.task('sass', function () {
   gulp.src('./css/**/*.scss')
-    .pipe(sass().on('error', sass.logError))
+    .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
     .pipe(rename('app.css'))
     .pipe(gulp.dest('build'));
 });
@@ -52,14 +54,22 @@ gulp.task('watch', function () {
   gulp.watch([ 'html/**/*' ], function() {
     gulp.start('html');
   });
-  gulp.watch([ 'build/**/*' ], ['reload']);
+  gulp.watch([ 'build/**/*.html', 'build/**/*.json', 'build/**/*.js' ], ['reload']);
 });
 
-gulp.task('deploy', function() {
+gulp.task('uglify', function() {
+  gulp.src('build/app.js')
+    .pipe(uglify())
+    .pipe(rename('app.js'))
+    .pipe(gulp.dest('build'));
+});
+
+gulp.task('gh-pages', function() {
   return gulp.src('./build/**')
     .pipe(ghPages());
 });
 
-gulp.task('build', ['browserify', 'sass', 'html']);
-gulp.task('serve', ['build', 'connect', 'watch']);
+gulp.task('build',   ['browserify', 'sass', 'html']);
+gulp.task('serve',   ['build', 'connect', 'watch']);
+gulp.task('deploy',  ['build', 'uglify', 'gh-pages']);
 gulp.task('default', ['serve']);
