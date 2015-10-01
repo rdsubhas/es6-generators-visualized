@@ -70,33 +70,27 @@ var Workspace = React.createClass({
     this.setState(this._computeNext(state, props));
   },
 
-  _computeNext: function(oldState, props) {
-    var step = oldState.step + 1;
+  _computeNext: function(state, props) {
+    var step = state.step + 1;
     var stepData = props.steps[step];
-    var positions = oldState.positions;
-    var highlights = oldState.highlights;
+    var positions = state.positions;
+    var highlights = state.highlights;
     var activePane = stepData[0];
     positions[activePane] = stepData[1];
     var vars = stepData[2];
     highlights[activePane] = stepData[3];
 
-    return _.merge(oldState, {
+    return _.merge(state, {
       step: step,
       activePane: activePane,
       positions: positions,
       highlights: highlights,
-      activeVars: _.merge(oldState.activeVars, vars),
-      playing: (oldState.pauseOnPaneChange && activePane!=oldState.activePane) ? false : oldState.playing
+      activeVars: _.merge(state.activeVars, vars),
+      playing: (state.pauseOnPaneChange && activePane!=state.activePane) ? false : state.playing
     });
   },
 
   render: function() {
-    if (this.state.playing) {
-      this.setTimeout(() => {
-        this.doStepNext();
-      }, this.state.playSpeed);
-    }
-
     return (
       <div className="code--workspace">
         <Controls playing={this.state.playing} step={this.state.step} numSteps={this.props.steps.length}
@@ -111,6 +105,14 @@ var Workspace = React.createClass({
         </div>
       </div>
     );
+  },
+
+  componentDidUpdate: function() {
+    if (this.state.playing) {
+      this.setTimeout(() => {
+        this.doStepNext();
+      }, this.state.playSpeed);
+    }
   }
 });
 
