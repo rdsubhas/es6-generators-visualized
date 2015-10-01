@@ -14,9 +14,9 @@ var Nav = React.createClass({
     return (
       <nav className="code--nav clearfix white bg-blue">
         <div className="left">
-          <button className="btn">
+          <a className="btn" href="https://github.com/rdsubhas/es6-genvis">
             <i className="fa fa-github fa-lg"></i>
-          </button>
+          </a>
           <button className="btn h3 mxn1">
             ES6 Generators Visualized
           </button>
