@@ -101,6 +101,7 @@ body {
     }
 
     td:first-child {
+      position: relative;
       user-select: none;
       -webkit-user-select: none;
       width: 3rem;
@@ -108,10 +109,17 @@ body {
       color: #999;
       text-align: right;
       vertical-align: top;
+
+      i {
+        position: absolute;
+        left: .25rem;
+        line-height: 1.5rem;
+        display: none;
+      }
     }
 
     tr.active {
-      td:first-child { background-color: #E0E0E0; }
+      td:first-child { background-color: #E0E0E0; i { display: block; } }
       td:last-child { background-color: #CFD8DC; }
     }
 

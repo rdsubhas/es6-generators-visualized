@@ -26,7 +26,7 @@ var Pane = React.createClass({
             {this.props.lines.map((line, i) => {
               return (
                 <tr key={i} className={cx({ 'active': i == this.props.line })}>
-                  <td>{i+1}</td>
+                  <td><i className="fa fa-caret-right"></i>{i+1}</td>
                   <td dangerouslySetInnerHTML={{ __html: line(this.props.vars) }}></td>
                 </tr>
               )
