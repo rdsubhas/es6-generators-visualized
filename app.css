@@ -43,11 +43,13 @@ body {
   bottom: 4rem;
   width: 100%; }
   .code--controls .btn {
-    margin: .5rem 0;
-    line-height: 3rem;
     text-align: center;
+    margin: 0.5rem 0.25rem;
+    line-height: 3rem;
     height: 3rem;
     padding: 0 1rem; }
+    .code--controls .btn.blue {
+      width: 5rem; }
 
 .code--workspace {
   position: fixed;
