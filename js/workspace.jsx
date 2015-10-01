@@ -50,13 +50,15 @@ var Workspace = React.createClass({
     if (this.props.panes.length > 0 && this.state.step < this.props.steps.length-1) {
       var state = this._computeNext(_.clone(this.state));
       this.setState(state);
+    } else {
+      this.setState({ playing: false });
     }
   },
 
   doStepBack: function() {
-    if (this.props.panes.length > 0 && this.state.step > 0) {
+    if (this.props.panes.length > 0 && this.state.step >= 0) {
       var state = this.getInitialState();
-      for (var i=0; i<this.state.step-1; i++)
+      for (var i=0; i<this.state.step; i++)
         this._computeNext(state);
       this.setState(state);
     }
