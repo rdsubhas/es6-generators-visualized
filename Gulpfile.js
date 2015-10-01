@@ -4,12 +4,12 @@ var connect    = require('gulp-connect');
 var watch      = require('gulp-watch');
 var rename     = require('gulp-rename');
 var sass       = require('gulp-sass');
-var port       = process.env.port || 8000;
+var ghPages    = require('gulp-gh-pages');
 
 gulp.task('connect', function () {
   connect.server({
     root: 'build',
-    port: port,
+    port: process.env.port || 8000,
     livereload: true
   });
 });
@@ -53,5 +53,11 @@ gulp.task('watch', function () {
   gulp.watch([ 'build/**/*' ], ['reload']);
 });
 
-gulp.task('default', ['browserify', 'sass', 'html']);
-gulp.task('serve', ['default', 'connect', 'watch']);
+gulp.task('deploy', function() {
+  return gulp.src('./build/**')
+    .pipe(ghPages());
+});
+
+gulp.task('build', ['browserify', 'sass', 'html']);
+gulp.task('serve', ['build', 'connect', 'watch']);
+gulp.task('default', ['serve']);
