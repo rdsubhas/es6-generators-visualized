@@ -14,7 +14,7 @@ var Nav = React.createClass({
     return (
       <nav className="code--nav clearfix white bg-blue">
         <div className="left">
-          <a className="btn" href="https://github.com/rdsubhas/es6-genvis">
+          <a className="btn" href="https://github.com/rdsubhas/es6-genvis" target="_blank">
             <i className="fa fa-github fa-lg"></i>
           </a>
           <button className="btn h3 mxn1">
