@@ -1,14 +1,14 @@
-import _ from 'lodash';
-import reqwest from 'reqwest';
-import React from 'react';
+import React from 'react/addons';
 import Nav from './nav.jsx';
 import Workspace from './workspace.jsx';
+import template from 'lodash/string/template';
+import reqwest from 'reqwest';
 
 function templatify(lines) {
   var regex = /\$\{(.+)\}/;
   var replacement = '<em>$1:\${$1}</em>';
   return lines.map((line) => {
-    return _.template(line.replace(regex, replacement));
+    return template(line.replace(regex, replacement));
   });
 }
 

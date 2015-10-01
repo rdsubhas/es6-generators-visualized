@@ -17,7 +17,7 @@ gulp.task('connect', function () {
 });
 
 gulp.task('browserify', function() {
-  gulp.src('js/app.jsx')
+  return gulp.src('js/app.jsx')
     .pipe(browserify({
       transform: ['babelify', 'reactify'],
       debug: true
@@ -28,19 +28,19 @@ gulp.task('browserify', function() {
 });
 
 gulp.task('sass', function () {
-  gulp.src('./css/**/*.scss')
+  return gulp.src('./css/**/*.scss')
     .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
     .pipe(rename('app.css'))
     .pipe(gulp.dest('build'));
 });
 
 gulp.task('html', function() {
-  gulp.src('./html/**/*')
+  return gulp.src('./html/**/*')
     .pipe(gulp.dest('build'));
 });
 
 gulp.task('reload', function() {
-  gulp.src('./build/**/*')
+  return gulp.src('./build/**/*')
     .pipe(connect.reload());
 });
 
@@ -57,19 +57,18 @@ gulp.task('watch', function () {
   gulp.watch([ 'build/**/*.html', 'build/**/*.json', 'build/**/*.js' ], ['reload']);
 });
 
-gulp.task('uglify', function() {
-  gulp.src('build/app.js')
+gulp.task('uglify', ['browserify'], function() {
+  return gulp.src('build/app.js')
     .pipe(uglify())
     .pipe(rename('app.js'))
     .pipe(gulp.dest('build'));
 });
 
-gulp.task('gh-pages', function() {
+gulp.task('deploy', ['build', 'uglify'], function() {
   return gulp.src('./build/**')
     .pipe(ghPages());
 });
 
 gulp.task('build',   ['browserify', 'sass', 'html']);
 gulp.task('serve',   ['build', 'connect', 'watch']);
-gulp.task('deploy',  ['build', 'uglify', 'gh-pages']);
 gulp.task('default', ['serve']);

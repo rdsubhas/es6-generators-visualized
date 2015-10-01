@@ -1,9 +1,9 @@
-import _ from 'lodash';
 import React from 'react/addons';
 import TimerMixin from 'react-timer-mixin';
 import Pane from './pane.jsx';
 import Controls from './controls.jsx';
-var cx = React.addons.classSet;
+import merge from 'lodash/object/merge';
+import cloneDeep from 'lodash/lang/cloneDeep';
 
 var Workspace = React.createClass({
   mixins: [TimerMixin],
@@ -20,7 +20,7 @@ var Workspace = React.createClass({
     return {
       step: -1,
       activePane: 0,
-      activeVars: _.clone(this.props.vars || {}),
+      activeVars: cloneDeep(this.props.vars || {}),
       positions: [],
       highlights: [],
 
@@ -48,7 +48,7 @@ var Workspace = React.createClass({
 
   doStepNext: function() {
     if (this.props.panes.length > 0 && this.state.step < this.props.steps.length-1) {
-      var state = this._computeNext(_.clone(this.state), this.props);
+      var state = this._computeNext(cloneDeep(this.state), this.props);
       this.setState(state);
     } else {
       this.setState({ playing: false });
@@ -66,7 +66,7 @@ var Workspace = React.createClass({
 
   _reset: function(props) {
     var state = this.getInitialState();
-    state.activeVars = _.clone(props.vars);
+    state.activeVars = cloneDeep(props.vars);
     this.setState(this._computeNext(state, props));
   },
 
@@ -80,12 +80,12 @@ var Workspace = React.createClass({
     var vars = stepData[2];
     highlights[activePane] = stepData[3];
 
-    return _.merge(state, {
+    return merge(state, {
       step: step,
       activePane: activePane,
       positions: positions,
       highlights: highlights,
-      activeVars: _.merge(state.activeVars, vars),
+      activeVars: merge(state.activeVars, vars),
       playing: (state.pauseOnPaneChange && activePane!=state.activePane) ? false : state.playing
     });
   },

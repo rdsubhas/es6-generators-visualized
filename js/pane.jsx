@@ -1,5 +1,4 @@
 import React from 'react/addons';
-
 var cx = React.addons.classSet;
 
 var Pane = React.createClass({

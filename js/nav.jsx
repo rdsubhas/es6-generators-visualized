@@ -5,10 +5,7 @@ var Nav = React.createClass({
 
   render: function() {
     var navClassFor = (tabName) => {
-      return cx({
-        'btn': true,
-        'bg-darken-2': tabName == this.props.tabName
-      })
+      return cx({ 'btn': true, 'bg-darken-2': tabName == this.props.tabName });
     };
 
     return (
