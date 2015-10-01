@@ -1,0 +1,76 @@
+html {
+  font-size: 13px;
+  height: 100%; }
+
+body {
+  font-family: "SF UI Text", "Helvetica Neue", "Helvetica", sans-serif;
+  height: 100%; }
+
+* {
+  box-sizing: border-box; }
+
+.btn, h1, h2, h3, h4, h5, h6 {
+  font-weight: 500; }
+
+#app {
+  position: fixed;
+  width: 100%;
+  height: 100%; }
+
+.code {
+  position: fixed;
+  width: 100%;
+  height: 100%; }
+
+.code--controls {
+  user-select: none;
+  -webkit-user-select: none;
+  position: absolute;
+  z-index: 4;
+  top: 0;
+  width: 100%; }
+  .code--controls .btn {
+    line-height: 3rem;
+    height: 3rem;
+    padding: 0 1rem; }
+
+.code--panes {
+  position: absolute;
+  top: 3rem;
+  width: 100%;
+  bottom: 0;
+  display: flex;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc; }
+
+.code--pane {
+  flex: 1;
+  background: white;
+  font-size: 13px;
+  overflow: auto;
+  border-right: 1px solid #ccc; }
+  .code--pane .code--table {
+    font-family: "Source Code Pro", Consolas, Monaco, "Courier New", monospace;
+    width: 100%; }
+    .code--pane .code--table td, .code--pane .code--table th {
+      padding: 0.25rem 0.75rem;
+      vertical-align: middle; }
+    .code--pane .code--table th {
+      border-bottom: 1px solid #ccc; }
+    .code--pane .code--table td:first-child {
+      width: 3rem;
+      background-color: #f0f0f0;
+      color: #999;
+      text-align: right;
+      vertical-align: top; }
+    .code--pane .code--table td:last-child {
+      white-space: pre; }
+    .code--pane .code--table tr.active td:first-child {
+      background-color: #E0E0E0; }
+    .code--pane .code--table tr.active td:last-child {
+      background-color: #CFD8DC; }
+  .code--pane.active tr.active td:first-child {
+    background-color: #FFF59D;
+    color: #000; }
+  .code--pane.active tr.active td:last-child {
+    background-color: #FFF176; }
