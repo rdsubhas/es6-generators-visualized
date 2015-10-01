@@ -6,7 +6,7 @@ import Pane from './pane.jsx';
 var App = React.createClass({
   getInitialState: function() {
     return {
-      fileName: './data/fibonacci.json',
+      fileName: './fibonacci.json',
       codes: [],
       steps: [],
       step: 0

@@ -8,8 +8,7 @@ var port       = process.env.port || 8000;
 
 gulp.task('connect', function () {
   connect.server({
-    root: '.',
-    hostname: 'localhost',
+    root: 'build',
     port: port,
     livereload: true
   });
@@ -31,6 +30,11 @@ gulp.task('sass', function () {
     .pipe(gulp.dest('build'));
 });
 
+gulp.task('html', function() {
+  gulp.src('./html/**/*')
+    .pipe(gulp.dest('build'));
+});
+
 gulp.task('reload', function() {
   gulp.src('./build/**/*')
     .pipe(connect.reload());
@@ -43,8 +47,11 @@ gulp.task('watch', function () {
   gulp.watch(['css/**/*.scss'], function () {
     gulp.start('sass');
   });
-  gulp.watch([ 'index.html', 'build/**/*', 'data/*' ], ['reload']);
+  gulp.watch([ 'html/**/*' ], function() {
+    gulp.start('html');
+  });
+  gulp.watch([ 'build/**/*' ], ['reload']);
 });
 
-gulp.task('default', ['browserify', 'sass']);
+gulp.task('default', ['browserify', 'sass', 'html']);
 gulp.task('serve', ['default', 'connect', 'watch']);
