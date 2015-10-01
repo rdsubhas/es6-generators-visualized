@@ -1,60 +1,53 @@
+import _ from 'lodash';
 import reqwest from 'reqwest';
 import React from 'react';
 import Nav from './nav.jsx';
-import Pane from './pane.jsx';
+import Workspace from './workspace.jsx';
+
+function convertLinesToTemplate(lines) {
+  var regex = /\$\{(.+)\}/;
+  var replacement = '<em>$1:\${$1}</em>';
+  return lines.map((line) => {
+    return _.template(line.replace(regex, replacement));
+  });
+}
 
 var App = React.createClass({
   getInitialState: function() {
     return {
       fileName: './fibonacci.json',
-      codes: [],
+      panes: [],
       steps: [],
-      step: 0
+      vars: {}
     }
   },
 
   componentDidMount: function() {
+    this.loadFile(this.state.fileName);
+  },
+
+  loadFile: function(fileName) {
     reqwest({
-      url: this.state.fileName,
+      url: fileName,
       type: 'json'
     }).then((data) => {
       this.setState({
-        codes: data.codes,
+        fileName: fileName,
+        panes: data.panes.map((pane) => {
+          pane.lines = convertLinesToTemplate(pane.lines);
+          return pane;
+        }),
         steps: data.steps,
-        step: 0
+        vars: data.vars
       });
     });
   },
 
-  onStepNext: function() {
-    var step = this.state.step + 1;
-    if (step < this.state.steps.length) {
-      this.setState({ step: step });
-    }
-  },
-
-  onStepPrev: function() {
-    var step = this.state.step - 1;
-    if (step >= 0) {
-      this.setState({ step: step });
-    }
-  },
-
   render: function() {
-    var currentStep = this.state.steps[this.state.step];
     return (
       <div className="code">
-        <Nav fileName={this.state.fileName} steps={this.state.steps} step={this.state.step}
-             onStepNext={this.onStepNext} onStepPrev={this.onStepPrev} />
-        <div className="code--panes">
-          {this.state.codes.map((code, i) => {
-            var lineStep = currentStep[i];
-            return (
-              <Pane key={i} name={code.name} lines={code.lines} 
-                    active={lineStep.active} line={lineStep.line} />
-              )
-          })}
-        </div>
+        <Nav fileName={this.state.fileName} />
+        <Workspace panes={this.state.panes} steps={this.state.steps} vars={this.state.vars} />
       </div>
     );
   }

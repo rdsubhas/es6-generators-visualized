@@ -6,6 +6,7 @@ var Pane = React.createClass({
   getDefaultProps: function() {
     return {
       active: false,
+      vars: {},
       name: '',
       lines: [],
       line: 0
@@ -22,12 +23,14 @@ var Pane = React.createClass({
             </tr>
           </thead>
           <tbody>
-            {this.props.lines.map((line, i) => { return (
-              <tr key={i} className={cx({ 'active': i == this.props.line })}>
-                <td>{i+1}</td>
-                <td>{line}</td>
-              </tr>
-            )})}
+            {this.props.lines.map((line, i) => {
+              return (
+                <tr key={i} className={cx({ 'active': i == this.props.line })}>
+                  <td>{i+1}</td>
+                  <td dangerouslySetInnerHTML={{ __html: line(this.props.vars) }}></td>
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       </div>

@@ -17,8 +17,10 @@ gulp.task('connect', function () {
 gulp.task('browserify', function() {
   gulp.src('js/app.jsx')
     .pipe(browserify({
-      transform: ['babelify', 'reactify']
+      transform: ['babelify', 'reactify'],
+      debug: true
     }))
+    .on('error', console.error.bind(console))
     .pipe(rename('app.js'))
     .pipe(gulp.dest('build'));
 });
