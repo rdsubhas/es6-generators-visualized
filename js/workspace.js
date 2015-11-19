@@ -10,10 +10,10 @@ const I_ACTIVE_LINE = 1
 const I_UPDATED_VARS = 2
 const I_HIGHLIGHT_REGEX = 3
 
-var Workspace = React.createClass({
+const Workspace = React.createClass({
   mixins: [TimerMixin],
 
-  getDefaultProps: function() {
+  getDefaultProps: function () {
     return {
       panes: [],
       steps: [],
@@ -21,7 +21,7 @@ var Workspace = React.createClass({
     }
   },
 
-  getInitialState: function() {
+  getInitialState: function () {
     return {
       step: -1,
       activePane: 0,
@@ -35,55 +35,55 @@ var Workspace = React.createClass({
     }
   },
 
-  componentWillReceiveProps: function(nextProps) {
+  componentWillReceiveProps: function (nextProps) {
     this._reset(nextProps)
   },
 
-  doTogglePlay: function() {
+  doTogglePlay: function () {
     this.setState({ playing: !this.state.playing, playSpeed: 500, pauseOnPaneChange: true })
   },
 
-  doPlayEnd: function() {
+  doPlayEnd: function () {
     this.setState({ playing: !this.state.playing, playSpeed: 300, pauseOnPaneChange: false })
   },
 
-  doStepFirst: function() {
+  doStepFirst: function () {
     this._reset(this.props)
   },
 
-  doStepNext: function() {
-    if (this.props.panes.length > 0 && this.state.step < this.props.steps.length-1) {
-      var state = this._computeNext(cloneDeep(this.state), this.props)
+  doStepNext: function () {
+    if (this.props.panes.length > 0 && this.state.step < (this.props.steps.length - 1)) {
+      let state = this._computeNext(cloneDeep(this.state), this.props)
       this.setState(state)
     } else {
       this.setState({ playing: false })
     }
   },
 
-  doStepBack: function() {
+  doStepBack: function () {
     if (this.props.panes.length > 0 && this.state.step > 0) {
-      var state = this.getInitialState()
-      for (var i=0; i<this.state.step; i++) {
+      let state = this.getInitialState()
+      for (let i = 0; i < this.state.step; i++) {
         this._computeNext(state, this.props)
       }
       this.setState(state)
     }
   },
 
-  _reset: function(props) {
-    var state = this.getInitialState()
+  _reset: function (props) {
+    let state = this.getInitialState()
     state.activeVars = cloneDeep(props.vars)
     this.setState(this._computeNext(state, props))
   },
 
-  _computeNext: function(state, props) {
-    var step = state.step + 1
-    var stepData = props.steps[step]
-    var positions = state.positions
-    var highlights = state.highlights
-    var activePane = stepData[I_ACTIVE_PANE]
+  _computeNext: function (state, props) {
+    let step = state.step + 1
+    let stepData = props.steps[step]
+    let positions = state.positions
+    let highlights = state.highlights
+    let activePane = stepData[I_ACTIVE_PANE]
     positions[activePane] = stepData[I_ACTIVE_LINE]
-    var vars = stepData[I_UPDATED_VARS]
+    let vars = stepData[I_UPDATED_VARS]
     highlights[activePane] = stepData[I_HIGHLIGHT_REGEX]
 
     return merge(state, {
@@ -92,28 +92,28 @@ var Workspace = React.createClass({
       positions: positions,
       highlights: highlights,
       activeVars: merge(state.activeVars, vars),
-      playing: (state.pauseOnPaneChange && activePane!=state.activePane) ? false : state.playing
+      playing: (state.pauseOnPaneChange && activePane !== state.activePane) ? false : state.playing
     })
   },
 
-  render: function() {
+  render: function () {
     return (
-      <div className="code--workspace">
+      <div className='code--workspace'>
         <Controls playing={this.state.playing} step={this.state.step} numSteps={this.props.steps.length}
-          doTogglePlay={this.doTogglePlay} doPlayEnd={this.doPlayEnd} 
+          doTogglePlay={this.doTogglePlay} doPlayEnd={this.doPlayEnd}
           doStepNext={this.doStepNext} doStepFirst={this.doStepFirst} doStepBack={this.doStepBack} />
-        <div className="code--panes">
-          {this.props.panes.map((code, i) => { return (
-              <Pane key={i} name={code.name} 
-                lines={code.lines} line={this.state.positions[i]} active={this.state.activePane == i}
+        <div className='code--panes'>
+          {this.props.panes.map((code, i) => {
+            return <Pane key={i} name={code.name}
+                lines={code.lines} position={this.state.positions[i]} active={this.state.activePane === i}
                 vars={this.state.activeVars} highlight={this.state.highlights[i]} />
-          )})}
+          })}
         </div>
       </div>
     )
   },
 
-  componentDidUpdate: function() {
+  componentDidUpdate: function () {
     if (this.state.playing) {
       this.setTimeout(() => {
         this.doStepNext()
@@ -122,4 +122,4 @@ var Workspace = React.createClass({
   }
 })
 
-module.exports = Workspace
+export default Workspace

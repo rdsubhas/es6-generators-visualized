@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import Nav from './nav'
 import Workspace from './workspace'
 import reqwest from 'reqwest'
@@ -10,15 +11,15 @@ import isNumber from 'lodash/lang/isNumber'
 const I_HIGHLIGHT_REGEX = 3
 const T_UNQUOTE_REGEX = /\"([^"]+)\"\:/g
 const T_INSPECT_REGEX = /\$\{(.+)\}/
-const T_INSPECT_REPLACEMENT = "<em>$1: \${inspectVariable($1)}</em>"
+const T_INSPECT_REPLACEMENT = '<em>$1: \${inspectVariable($1)}</em>'
 
-function inspectVariable(value) {
+function inspectVariable (value) {
   if (isNumber(value) || !isEmpty(value)) {
-    return JSON.stringify(value).replace(T_UNQUOTE_REGEX, "$1:")
+    return JSON.stringify(value).replace(T_UNQUOTE_REGEX, '$1:')
   }
 }
 
-function templatify(lines) {
+function templatify (lines) {
   return lines.map((line) => {
     return template(line.replace(T_INSPECT_REGEX, T_INSPECT_REPLACEMENT), {
       imports: {
@@ -30,8 +31,8 @@ function templatify(lines) {
   })
 }
 
-var App = React.createClass({
-  getInitialState: function() {
+const App = React.createClass({
+  getInitialState: function () {
     return {
       tabName: 'fibonacci',
       panes: [],
@@ -40,13 +41,13 @@ var App = React.createClass({
     }
   },
 
-  componentDidMount: function() {
+  componentDidMount: function () {
     this.doLoadFile(this.state.tabName)
   },
 
-  doLoadFile: function(tabName) {
+  doLoadFile: function (tabName) {
     reqwest({
-      url: tabName + ".json",
+      url: tabName + '.json',
       type: 'json'
     }).then((data) => {
       this.setState({
@@ -56,7 +57,7 @@ var App = React.createClass({
           return pane
         }),
         steps: data.steps.map((step) => {
-          step[I_HIGHLIGHT_REGEX] = new RegExp("(" + step[I_HIGHLIGHT_REGEX] + ")")
+          step[I_HIGHLIGHT_REGEX] = new RegExp('(' + step[I_HIGHLIGHT_REGEX] + ')')
           return step
         }),
         vars: data.vars
@@ -64,9 +65,9 @@ var App = React.createClass({
     })
   },
 
-  render: function() {
+  render: function () {
     return (
-      <div className="code">
+      <div className='code'>
         <Nav tabName={this.state.tabName} doLoadFile={this.doLoadFile} />
         <Workspace panes={this.state.panes} steps={this.state.steps} vars={this.state.vars} />
       </div>
@@ -74,4 +75,4 @@ var App = React.createClass({
   }
 })
 
-React.render(<App />, document.getElementById('app'))
+ReactDOM.render(<App />, document.getElementById('app'))

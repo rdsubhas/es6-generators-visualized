@@ -1,45 +1,35 @@
 import React from 'react'
+import Line from './line'
 import cx from 'classnames'
 
-var Pane = React.createClass({
-  getDefaultProps: function() {
+const Pane = React.createClass({
+  getDefaultProps: function () {
     return {
       active: false,
       highlight: null,
       vars: {},
       name: '',
       lines: [],
-      line: -1
+      position: -1
     }
   },
 
-  _createLine: function(line, i) {
-    var active = i == this.props.line
-    var html = line(this.props.vars)
+  render: function () {
+    let lines = this.props.lines.map((line, i) => {
+      return <Line key={i} line={line} lineNo={i} position={this.props.position}
+        vars={this.props.vars} highlight={this.props.highlight} />
+    })
 
-    if (active && this.props.highlight) {
-      html = html.replace(this.props.highlight, '<b>$1</b>')
-    }
-
-    return (
-      <tr key={i} className={cx({ 'active': i == this.props.line })}>
-        <td>{i+1}</td>
-        <td dangerouslySetInnerHTML={{ __html: html }}></td>
-      </tr>
-    )
-  },
-
-  render: function() {
     return (
       <div className={cx({ 'code--pane': true, 'active': this.props.active })}>
-        <table className="code--table">
+        <table className='code--table'>
           <thead>
             <tr>
-              <th colSpan="2">{this.props.name}</th>
+              <th colSpan='2'>{this.props.name}</th>
             </tr>
           </thead>
           <tbody>
-            {this.props.lines.map(this._createLine)}
+            {lines}
           </tbody>
         </table>
       </div>
@@ -47,4 +37,4 @@ var Pane = React.createClass({
   }
 })
 
-module.exports = Pane
+export default Pane
