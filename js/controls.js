@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react'
 
 var Controls = React.createClass({
   getDefaultProps: function() {
@@ -10,9 +10,9 @@ var Controls = React.createClass({
   },
 
   render: function() {
-    var playing = this.props.playing;
-    var hasNext = this.props.step < this.props.numSteps-1;
-    var hasPrev = this.props.step > 0;
+    var playing = this.props.playing
+    var hasNext = this.props.step < this.props.numSteps-1
+    var hasPrev = this.props.step > 0
 
     return (
       <nav className="code--controls clearfix">
@@ -36,8 +36,8 @@ var Controls = React.createClass({
           </button>
         </div>
       </nav>
-    );
+    )
   }
-});
+})
 
-module.exports = Controls;
+module.exports = Controls

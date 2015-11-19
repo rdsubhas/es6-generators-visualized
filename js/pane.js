@@ -1,5 +1,5 @@
-import React from 'react/addons';
-var cx = React.addons.classSet;
+import React from 'react'
+import cx from 'classnames'
 
 var Pane = React.createClass({
   getDefaultProps: function() {
@@ -14,11 +14,11 @@ var Pane = React.createClass({
   },
 
   _createLine: function(line, i) {
-    var active = i == this.props.line;
-    var html = line(this.props.vars);
+    var active = i == this.props.line
+    var html = line(this.props.vars)
 
     if (active && this.props.highlight) {
-      html = html.replace(this.props.highlight, '<b>$1</b>');
+      html = html.replace(this.props.highlight, '<b>$1</b>')
     }
 
     return (
@@ -43,8 +43,8 @@ var Pane = React.createClass({
           </tbody>
         </table>
       </div>
-    );
+    )
   }
-});
+})
 
-module.exports = Pane;
+module.exports = Pane

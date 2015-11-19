@@ -1,12 +1,12 @@
-import React from 'react/addons';
-var cx = React.addons.classSet;
+import React from 'react'
+import cx from 'classnames'
 
 var Nav = React.createClass({
 
   render: function() {
     var navClassFor = (tabName) => {
-      return cx({ 'btn': true, 'bg-darken-2': tabName == this.props.tabName });
-    };
+      return cx({ 'btn': true, 'bg-darken-2': tabName == this.props.tabName })
+    }
 
     return (
       <nav className="code--nav clearfix white bg-blue">
@@ -36,8 +36,8 @@ var Nav = React.createClass({
           </button>
         </div>
       </nav>
-    );
+    )
   }
-});
+})
 
-module.exports = Nav;
+module.exports = Nav
