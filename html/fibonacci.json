@@ -1,6 +1,6 @@
 {
   "panes": [{
-    "name": "user function",
+    "name": "caller function",
     "lines": [
       "var fib = fibonacci();",
       "for (var i=0; i<5; i++) { ${i}",

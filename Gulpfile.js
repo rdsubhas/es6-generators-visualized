@@ -17,31 +17,35 @@ gulp.task('connect', function () {
 });
 
 gulp.task('browserify', function() {
-  return gulp.src('js/app.jsx')
-    .pipe(browserify({
+  return gulp.src('js/app.jsx').
+    pipe(browserify({
       transform: ['babelify', 'reactify'],
       debug: true
-    }))
-    .on('error', console.error.bind(console))
-    .pipe(rename('app.js'))
-    .pipe(gulp.dest('build'));
+    })).
+    on('error', console.error.bind(console)).
+    pipe(rename('app.js')).
+    pipe(gulp.dest('build'));
 });
 
 gulp.task('sass', function () {
-  return gulp.src('./css/**/*.scss')
-    .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
-    .pipe(rename('app.css'))
-    .pipe(gulp.dest('build'));
+  return gulp.src('./css/**/*.scss').
+    pipe(sass({
+      outputStyle: 'compressed',
+      includePaths: [ './node_modules/basscss-sass' ]
+    })).
+    on('error', sass.logError).
+    pipe(rename('app.css')).
+    pipe(gulp.dest('build'));
 });
 
 gulp.task('html', function() {
-  return gulp.src('./html/**/*')
-    .pipe(gulp.dest('build'));
+  return gulp.src('./html/**/*').
+    pipe(gulp.dest('build'));
 });
 
 gulp.task('reload', function() {
-  return gulp.src('./build/**/*')
-    .pipe(connect.reload());
+  return gulp.src('./build/**/*').
+    pipe(connect.reload());
 });
 
 gulp.task('watch', function () {
@@ -54,19 +58,19 @@ gulp.task('watch', function () {
   gulp.watch([ 'html/**/*' ], function() {
     gulp.start('html');
   });
-  gulp.watch([ 'build/**/*.html', 'build/**/*.json', 'build/**/*.js' ], ['reload']);
+  gulp.watch([ 'build/**' ], ['reload']);
 });
 
 gulp.task('uglify', ['browserify'], function() {
-  return gulp.src('build/app.js')
-    .pipe(uglify())
-    .pipe(rename('app.js'))
-    .pipe(gulp.dest('build'));
+  return gulp.src('build/app.js').
+    pipe(uglify()).
+    pipe(rename('app.js')).
+    pipe(gulp.dest('build'));
 });
 
 gulp.task('deploy', ['build', 'uglify'], function() {
-  return gulp.src('./build/**')
-    .pipe(ghPages());
+  return gulp.src('./build/**').
+    pipe(ghPages());
 });
 
 gulp.task('build',   ['browserify', 'sass', 'html']);

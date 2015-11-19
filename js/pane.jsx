@@ -22,7 +22,7 @@ var Pane = React.createClass({
 
     return (
       <tr key={i} className={cx({ 'active': i == this.props.line })}>
-        <td><i className="fa fa-caret-right"></i>{i+1}</td>
+        <td>{i+1}</td>
         <td dangerouslySetInnerHTML={{ __html: html }}></td>
       </tr>
     )

@@ -28,11 +28,11 @@ var Controls = React.createClass({
             <i className="fa fa-lg fa-play" style={{display: this.props.playing?'none':'inline'}}></i>
             <i className="fa fa-lg fa-ellipsis-v" style={{display: this.props.playing?'none':'inline'}}></i>
           </button>
+          <button className="btn btn-outline" onClick={this.props.doPlayEnd} disabled={playing||!hasNext} title="Play until end">
+            <i className="fa fa-fw fa-play"></i>
+          </button>
           <button className="btn btn-outline" onClick={this.props.doStepNext} disabled={playing||!hasNext} title="Step forward">
             <i className="fa fa-fw fa-forward"></i>
-          </button>
-          <button className="btn btn-outline" onClick={this.props.doPlayEnd} disabled={playing||!hasNext} title="Play until end">
-            <i className="fa fa-fw fa-fast-forward"></i>
           </button>
         </div>
       </nav>

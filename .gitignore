@@ -212,3 +212,4 @@ node_modules
 
 build/
 .publish/
+.bower_components/
