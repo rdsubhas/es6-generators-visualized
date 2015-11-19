@@ -57,7 +57,7 @@ body {
   position: absolute;
   background-color: darken($panesilver, 5%);
   top: 0;
-  bottom: 4rem;
+  height: 4rem;
   width: 100%;
 
   .btn {
@@ -70,6 +70,16 @@ body {
     &.blue {
       width: 5rem;
     }
+  }
+
+  .code--progress {
+    background-color: $blue;
+    position: absolute;
+    top: 3.75rem;
+    left: 0;
+    width: 0;
+    height: 0.25rem;
+    transition: width .25s;
   }
 }
 

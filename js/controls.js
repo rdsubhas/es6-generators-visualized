@@ -13,6 +13,7 @@ var Controls = React.createClass({
     var playing = this.props.playing
     var hasNext = this.props.step < this.props.numSteps-1
     var hasPrev = this.props.step > 0
+    var percent = Math.round(Math.max(this.props.step, 0) * 100.0 / (this.props.numSteps - 1)) + '%'
 
     return (
       <nav className="code--controls clearfix">
@@ -35,6 +36,7 @@ var Controls = React.createClass({
             <i className="fa fa-fw fa-forward"></i>
           </button>
         </div>
+        <div className="code--progress" style={{width:percent}}>&nbsp;</div>
       </nav>
     )
   }
