@@ -74,5 +74,5 @@ gulp.task('deploy', ['build', 'uglify'], function() {
 });
 
 gulp.task('build',   ['browserify', 'sass', 'html']);
-gulp.task('serve',   ['build', 'connect', 'watch']);
+gulp.task('dev',     ['build', 'connect', 'watch']);
 gulp.task('default', ['serve']);

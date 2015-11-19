@@ -24,6 +24,7 @@
     "reqwest": "~2.0.4"
   },
   "scripts": {
-    "start": "gulp serve"
+    "start": "gulp dev",
+    "deploy": "gulp deploy"
   }
 }

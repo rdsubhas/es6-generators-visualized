@@ -5,6 +5,11 @@ import Controls from './controls.jsx';
 import merge from 'lodash/object/merge';
 import cloneDeep from 'lodash/lang/cloneDeep';
 
+const I_ACTIVE_PANE = 0;
+const I_ACTIVE_LINE = 1;
+const I_UPDATED_VARS = 2;
+const I_HIGHLIGHT_REGEX = 3;
+
 var Workspace = React.createClass({
   mixins: [TimerMixin],
 
@@ -75,10 +80,10 @@ var Workspace = React.createClass({
     var stepData = props.steps[step];
     var positions = state.positions;
     var highlights = state.highlights;
-    var activePane = stepData[0];
-    positions[activePane] = stepData[1];
-    var vars = stepData[2];
-    highlights[activePane] = stepData[3];
+    var activePane = stepData[I_ACTIVE_PANE];
+    positions[activePane] = stepData[I_ACTIVE_LINE];
+    var vars = stepData[I_UPDATED_VARS];
+    highlights[activePane] = stepData[I_HIGHLIGHT_REGEX];
 
     return merge(state, {
       step: step,

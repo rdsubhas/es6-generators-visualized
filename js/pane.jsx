@@ -17,8 +17,9 @@ var Pane = React.createClass({
     var active = i == this.props.line;
     var html = line(this.props.vars);
 
-    if (active && this.props.highlight)
-      html = html.replace(this.props.highlight, '<b>' + this.props.highlight + '</b>');
+    if (active && this.props.highlight) {
+      html = html.replace(this.props.highlight, '<b>$1</b>');
+    }
 
     return (
       <tr key={i} className={cx({ 'active': i == this.props.line })}>
