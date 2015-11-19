@@ -8,15 +8,23 @@ import isEmpty from 'lodash/lang/isEmpty';
 import isNumber from 'lodash/lang/isNumber';
 
 const I_HIGHLIGHT_REGEX = 3;
+const UNQUOTE_REGEX = /\"([^"]+)\"\:/g;
+
+function inspectVariable(value) {
+  if (isNumber(value) || !isEmpty(value)) {
+    return JSON.stringify(value).replace(UNQUOTE_REGEX, "$1:");
+  }
+}
 
 function templatify(lines) {
   var regex = /\$\{(.+)\}/;
-  var replacement = '<em>$1: \${isNumber($1) || !isEmpty($1) ? JSON.stringify($1) : null}</em>';
+  var replacement = '<em>$1: \${inspectVariable($1)}</em>';
   return lines.map((line) => {
     return template(line.replace(regex, replacement), {
       imports: {
         isEmpty: isEmpty,
-        isNumber: isNumber
+        isNumber: isNumber,
+        inspectVariable: inspectVariable
       }
     });
   });

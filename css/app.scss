@@ -132,16 +132,18 @@ body {
       }
     }
 
-    td em {
-      user-select: none;
-      -webkit-user-select: none;
-      font-style: normal;
-      font-weight: bold;
-      display: inline-block;
-      padding: 0 .5rem;
-      border-radius: 2px;
-      background-color: $darken-4;
-      color: white;
+    td:last-child {
+      em {
+        user-select: none;
+        -webkit-user-select: none;
+        font-style: normal;
+        font-weight: bold;
+        display: inline-block;
+        padding: 0 .5rem;
+        border-radius: 2px;
+        background-color: $darken-4;
+        color: white;
+      }
     }
 
     tr.active {
