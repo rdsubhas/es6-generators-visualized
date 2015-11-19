@@ -1,7 +1,7 @@
 import React from 'react/addons';
 import TimerMixin from 'react-timer-mixin';
-import Pane from './pane.jsx';
-import Controls from './controls.jsx';
+import Pane from './pane';
+import Controls from './controls';
 import merge from 'lodash/object/merge';
 import cloneDeep from 'lodash/lang/cloneDeep';
 

@@ -1,5 +1,6 @@
+var fs         = require('fs');
 var gulp       = require('gulp');
-var browserify = require('gulp-browserify');
+var browserify = require('browserify');
 var uglify     = require('gulp-uglify');
 var connect    = require('gulp-connect');
 var watch      = require('gulp-watch');
@@ -17,14 +18,13 @@ gulp.task('connect', function () {
 });
 
 gulp.task('browserify', function() {
-  return gulp.src('js/app.jsx').
-    pipe(browserify({
-      transform: ['babelify', 'reactify'],
-      debug: true
-    })).
+  return browserify('js/app.js').
+    transform('babelify', {
+      presets: [ 'es2015', 'react' ]
+    }).
+    bundle().
     on('error', console.error.bind(console)).
-    pipe(rename('app.js')).
-    pipe(gulp.dest('build'));
+    pipe(fs.createWriteStream('build/app.js'));
 });
 
 gulp.task('sass', function () {

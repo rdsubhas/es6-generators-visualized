@@ -1,6 +1,6 @@
 import React from 'react/addons';
-import Nav from './nav.jsx';
-import Workspace from './workspace.jsx';
+import Nav from './nav';
+import Workspace from './workspace';
 import reqwest from 'reqwest';
 
 import template from 'lodash/string/template';
