@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import ReactEs6 from './react-es6'
 import Nav from './nav'
 import Workspace from './workspace'
 import reqwest from 'reqwest'
@@ -31,21 +31,23 @@ function templatify (lines) {
   })
 }
 
-const App = React.createClass({
-  getInitialState: function () {
-    return {
+class App extends React.Component {
+
+  constructor (props) {
+    super(props)
+    this.state = {
       tabName: 'fibonacci',
       panes: [],
       steps: [],
       vars: {}
     }
-  },
+  }
 
-  componentDidMount: function () {
+  componentDidMount () {
     this.doLoadFile(this.state.tabName)
-  },
+  }
 
-  doLoadFile: function (tabName) {
+  doLoadFile (tabName) {
     reqwest({
       url: tabName + '.json',
       type: 'json'
@@ -63,9 +65,9 @@ const App = React.createClass({
         vars: data.vars
       })
     })
-  },
+  }
 
-  render: function () {
+  render () {
     return (
       <div className='code'>
         <Nav tabName={this.state.tabName} doLoadFile={this.doLoadFile} />
@@ -73,6 +75,7 @@ const App = React.createClass({
       </div>
     )
   }
-})
 
-ReactDOM.render(<App />, document.getElementById('app'))
+}
+
+export default ReactEs6(App).autobind()

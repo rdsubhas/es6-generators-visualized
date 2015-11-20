@@ -1,13 +1,13 @@
 import React from 'react'
 import cx from 'classnames'
 
-const Nav = React.createClass({
+class Nav extends React.Component {
 
-  _navClassFor: function (tabName) {
+  _navClassFor (tabName) {
     return cx({ 'btn': true, 'bg-darken-2': tabName === this.props.tabName })
-  },
+  }
 
-  render: function () {
+  render () {
     return (
       <nav className='code--nav clearfix white bg-blue'>
         <div className='left'>
@@ -38,6 +38,7 @@ const Nav = React.createClass({
       </nav>
     )
   }
-})
+
+}
 
 export default Nav

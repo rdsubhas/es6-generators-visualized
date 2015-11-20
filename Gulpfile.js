@@ -1,5 +1,5 @@
-var fs = require('fs')
 var gulp = require('gulp')
+var source = require('vinyl-source-stream')
 var browserify = require('browserify')
 var uglify = require('gulp-uglify')
 var connect = require('gulp-connect')
@@ -16,13 +16,16 @@ gulp.task('connect', function () {
 })
 
 gulp.task('browserify', function () {
-  return browserify('js/app.js')
-    .transform('babelify', {
-      presets: [ 'es2015', 'react' ]
-    })
+  return browserify('js/index.js')
+    .transform('babelify')
     .bundle()
-    .on('error', console.error.bind(console))
-    .pipe(fs.createWriteStream('build/app.js'))
+    .on('error', function (err) {
+      console.error(err)
+      this.emit('end')
+    })
+    .pipe(source('js/app.js'))
+    .pipe(rename('app.js'))
+    .pipe(gulp.dest('build'))
 })
 
 gulp.task('sass', function () {

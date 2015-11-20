@@ -1,15 +1,14 @@
 import React from 'react'
 
-const Controls = React.createClass({
-  getDefaultProps: function () {
-    return {
-      playing: false,
-      numSteps: 0,
-      step: 0
-    }
-  },
+class Controls extends React.Component {
 
-  render: function () {
+  static defaultProps = {
+    playing: false,
+    numSteps: 0,
+    step: 0
+  }
+
+  render() {
     let playing = this.props.playing
     let hasNext = this.props.step < (this.props.numSteps - 1)
     let hasPrev = this.props.step > 0
@@ -40,6 +39,7 @@ const Controls = React.createClass({
       </nav>
     )
   }
-})
+
+}
 
 export default Controls

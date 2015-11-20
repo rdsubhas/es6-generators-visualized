@@ -2,26 +2,25 @@ import React from 'react'
 import Line from './line'
 import cx from 'classnames'
 
-const Pane = React.createClass({
-  getDefaultProps: function () {
-    return {
-      active: false,
-      highlight: null,
-      vars: {},
-      name: '',
-      lines: [],
-      position: -1
-    }
-  },
+class Pane extends React.Component {
 
-  render: function () {
+  static defaultProps = {
+    active: false,
+    highlight: null,
+    vars: {},
+    name: '',
+    lines: [],
+    position: -1
+  }
+
+  render () {
     let lines = this.props.lines.map((line, i) => {
       return <Line key={i} line={line} lineNo={i} position={this.props.position}
         vars={this.props.vars} highlight={this.props.highlight} />
     })
 
     return (
-      <div className={cx({ 'code--pane': true, 'active': this.props.active })}>
+      <div className={cx('code--pane', { 'active': this.props.active })}>
         <table className='code--table'>
           <thead>
             <tr>
@@ -35,6 +34,7 @@ const Pane = React.createClass({
       </div>
     )
   }
-})
+
+}
 
 export default Pane

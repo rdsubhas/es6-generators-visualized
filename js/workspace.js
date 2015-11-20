@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactEs6 from './react-es6'
 import TimerMixin from 'react-timer-mixin'
 import Pane from './pane'
 import Controls from './controls'
@@ -10,18 +11,20 @@ const I_ACTIVE_LINE = 1
 const I_UPDATED_VARS = 2
 const I_HIGHLIGHT_REGEX = 3
 
-const Workspace = React.createClass({
-  mixins: [TimerMixin],
+class Workspace extends React.Component {
 
-  getDefaultProps: function () {
-    return {
-      panes: [],
-      steps: [],
-      vars: {}
-    }
-  },
+  static defaultProps = {
+    panes: [],
+    steps: [],
+    vars: {}
+  }
 
-  getInitialState: function () {
+  constructor (props) {
+    super(props)
+    this.state = this._getInitialState()
+  }
+
+  _getInitialState () {
     return {
       step: -1,
       activePane: 0,
@@ -33,50 +36,50 @@ const Workspace = React.createClass({
       playSpeed: 500,
       pauseOnPaneChange: true
     }
-  },
+  }
 
-  componentWillReceiveProps: function (nextProps) {
+  componentWillReceiveProps (nextProps) {
     this._reset(nextProps)
-  },
+  }
 
-  doTogglePlay: function () {
+  doTogglePlay () {
     this.setState({ playing: !this.state.playing, playSpeed: 500, pauseOnPaneChange: true })
-  },
+  }
 
-  doPlayEnd: function () {
+  doPlayEnd () {
     this.setState({ playing: !this.state.playing, playSpeed: 300, pauseOnPaneChange: false })
-  },
+  }
 
-  doStepFirst: function () {
+  doStepFirst () {
     this._reset(this.props)
-  },
+  }
 
-  doStepNext: function () {
+  doStepNext () {
     if (this.props.panes.length > 0 && this.state.step < (this.props.steps.length - 1)) {
       let state = this._computeNext(cloneDeep(this.state), this.props)
       this.setState(state)
     } else {
       this.setState({ playing: false })
     }
-  },
+  }
 
-  doStepBack: function () {
+  doStepBack () {
     if (this.props.panes.length > 0 && this.state.step > 0) {
-      let state = this.getInitialState()
+      let state = this._getInitialState()
       for (let i = 0; i < this.state.step; i++) {
         this._computeNext(state, this.props)
       }
       this.setState(state)
     }
-  },
+  }
 
-  _reset: function (props) {
-    let state = this.getInitialState()
+  _reset (props) {
+    let state = this._getInitialState()
     state.activeVars = cloneDeep(props.vars)
     this.setState(this._computeNext(state, props))
-  },
+  }
 
-  _computeNext: function (state, props) {
+  _computeNext (state, props) {
     let step = state.step + 1
     let stepData = props.steps[step]
     let positions = state.positions
@@ -94,9 +97,9 @@ const Workspace = React.createClass({
       activeVars: merge(state.activeVars, vars),
       playing: (state.pauseOnPaneChange && activePane !== state.activePane) ? false : state.playing
     })
-  },
+  }
 
-  render: function () {
+  render () {
     return (
       <div className='code--workspace'>
         <Controls playing={this.state.playing} step={this.state.step} numSteps={this.props.steps.length}
@@ -111,15 +114,16 @@ const Workspace = React.createClass({
         </div>
       </div>
     )
-  },
+  }
 
-  componentDidUpdate: function () {
+  componentDidUpdate () {
     if (this.state.playing) {
       this.setTimeout(() => {
         this.doStepNext()
       }, this.state.playSpeed)
     }
   }
-})
 
-export default Workspace
+}
+
+export default ReactEs6(Workspace).mixins(TimerMixin).autobind()
