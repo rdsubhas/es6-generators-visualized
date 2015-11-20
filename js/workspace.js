@@ -106,9 +106,9 @@ class Workspace extends React.Component {
           doTogglePlay={this.doTogglePlay} doPlayEnd={this.doPlayEnd}
           doStepNext={this.doStepNext} doStepFirst={this.doStepFirst} doStepBack={this.doStepBack} />
         <div className='code--panes'>
-          {this.props.panes.map((code, i) => {
-            return <Pane key={i} name={code.name}
-                lines={code.lines} position={this.state.positions[i]} active={this.state.activePane === i}
+          {this.props.panes.map((pane, i) => {
+            return <Pane key={i} name={pane.name} lines={pane.lines} stars={pane.stars}
+                position={this.state.positions[i]} active={this.state.activePane === i}
                 vars={this.state.activeVars} highlight={this.state.highlights[i]} />
           })}
         </div>

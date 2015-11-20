@@ -11,6 +11,10 @@
         "line 1 ${variable_substitution}",
         "line 2 ${variable_substitution}",
         /* array of lines with optional variables */
+      ],
+      "stars": [
+        1
+        /* array of line numbers which need to be starred */
       ]
     },
     /* array of panes */

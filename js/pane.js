@@ -8,6 +8,7 @@ class Pane extends React.Component {
     active: false,
     highlight: null,
     vars: {},
+    stars: [],
     name: '',
     lines: [],
     position: -1
@@ -15,8 +16,9 @@ class Pane extends React.Component {
 
   render () {
     let lines = this.props.lines.map((line, i) => {
+      let star = this.props.stars.indexOf(i) !== -1
       return <Line key={i} line={line} lineNo={i} position={this.props.position}
-        vars={this.props.vars} highlight={this.props.highlight} />
+        vars={this.props.vars} highlight={this.props.highlight} star={star} />
     })
 
     return (
