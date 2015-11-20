@@ -11,6 +11,9 @@ const I_ACTIVE_LINE = 1
 const I_UPDATED_VARS = 2
 const I_HIGHLIGHT_REGEX = 3
 
+const PLAY_SPEED_NORMAL = 500
+const PLAY_SPEED_FAST = 500
+
 class Workspace extends React.Component {
 
   static defaultProps = {
@@ -33,7 +36,7 @@ class Workspace extends React.Component {
       highlights: [],
 
       playing: false,
-      playSpeed: 500,
+      playSpeed: PLAY_SPEED_NORMAL,
       pauseOnPaneChange: true
     }
   }
@@ -43,11 +46,11 @@ class Workspace extends React.Component {
   }
 
   doTogglePlay () {
-    this.setState({ playing: !this.state.playing, playSpeed: 500, pauseOnPaneChange: true })
+    this.setState({ playing: !this.state.playing, playSpeed: PLAY_SPEED_NORMAL, pauseOnPaneChange: true })
   }
 
   doPlayEnd () {
-    this.setState({ playing: !this.state.playing, playSpeed: 300, pauseOnPaneChange: false })
+    this.setState({ playing: !this.state.playing, playSpeed: PLAY_SPEED_FAST, pauseOnPaneChange: false })
   }
 
   doStepFirst () {
