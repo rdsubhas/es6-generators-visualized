@@ -1,3 +1,5 @@
+const reactMixin = require('react-mixin')
+
 const IGNORED_FNS = [
   'constructor',
   'toString',
@@ -17,17 +19,15 @@ const IGNORED_FNS = [
   'replaceState',
   'setState',
   'render',
-  'forceUpdate'
-]
-
-const LIFECYCLE_FNS = [
+  'forceUpdate',
   'componentWillMount',
   'componentDidMount',
   'componentWillReceiveProps',
   'componentWillUpdate',
   'componentDidUpdate',
   'componentWillUnmount',
-  'shouldComponentUpdate'
+  'shouldComponentUpdate',
+  'render'
 ]
 
 function memberFunctions (proto) {
@@ -44,61 +44,33 @@ function memberFunctions (proto) {
   return allFns
 }
 
-function reactEs6 (baseClass) {
-  baseClass.autobind = autobind
-  baseClass.mixins = mixins
-  baseClass.mixin = mixin
-  return baseClass
+function autobindMixin (members) {
+  return {
+    componentWillMount: function () {
+      members.forEach((name) => {
+        this[name] = this[name].bind(this)
+      })
+    }
+  }
 }
 
 function autobind (...members) {
-  let autobindFns = (members && members.length > 0) ? members : memberFunctions(this.prototype)
-  return reactEs6(
-    class extends this {
-      constructor (...args) {
-        super(...args)
-        autobindFns.forEach((fn) => {
-          this[fn] = this[fn].bind(this)
-        })
-      }
-    }
-  )
-}
-
-function mixin (mixin) {
-  let mixinClass = reactEs6(
-    class extends this { }
-  )
-
-  memberFunctions(mixin).forEach((fn) => {
-    if (fn === 'shouldComponentUpdate') {
-      mixinClass.prototype[fn] = function (...args) {
-        let should = mixin[fn].apply(this, args)
-        if (should) {
-          return should
-        } else if (this.prototype.shouldComponentUpdate) {
-          return this.prototype.shouldComponentUpdate.apply(this, args)
-        } else {
-          return false
-        }
-      }
-    } else if (LIFECYCLE_FNS.indexOf(fn) !== -1) {
-      mixinClass.prototype[fn] = function (...args) {
-        mixin[fn].apply(this, args)
-        if (this.prototype[fn]) {
-          this.prototype[fn].apply(this, args)
-        }
-      }
-    } else {
-      mixinClass.prototype[fn] = mixin[fn]
-    }
-  })
-
-  return mixinClass
+  reactMixin.onClass(this, autobindMixin(memberFunctions(this.prototype)))
+  return this
 }
 
 function mixins (...mixins) {
-  return mixins.reduce((baseClass, mixin) => baseClass.mixin(mixin), this)
+  mixins.forEach((m) => {
+    reactMixin.onClass(this, m)
+  })
+  return this
+}
+
+function reactEs6 (baseClass) {
+  baseClass.autobind = autobind
+  baseClass.mixin = mixins
+  baseClass.mixins = mixins
+  return baseClass
 }
 
 export default reactEs6

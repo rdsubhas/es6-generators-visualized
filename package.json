@@ -23,6 +23,7 @@
     "lodash": "^3.10.1",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
+    "react-mixin": "^3.0.3",
     "react-timer-mixin": "^0.13.2",
     "reqwest": "^2.0.4",
     "standard": "^5.4.1",
