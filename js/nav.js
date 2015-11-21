@@ -2,11 +2,11 @@ import React from 'react'
 import ReactEs6 from './react-es6'
 import cx from 'classnames'
 
-const FILE_NAMES = {
-  '1' : '1. Basic',
-  '2' : '2. Return',
-  '3' : '3. Iterator'
-}
+const EXAMPLES = [
+  'Basic',
+  'Return',
+  'Iterator'
+]
 
 class Nav extends React.Component {
 
@@ -20,41 +20,47 @@ class Nav extends React.Component {
   }
 
   render () {
+    let exampleIndex = parseInt(this.props.exampleId || '0') - 1
+    let hasNext = exampleIndex < (EXAMPLES.length - 1)
+    let hasPrev = exampleIndex > 0
+
     return (
       <nav className='code--nav clearfix white bg-blue'>
         <div className='left'>
-          <a className='btn btn-primary' href='https://github.com/rdsubhas/es6-generators-visualized' target='_blank'>
+          <a className='btn btn-primary h3' href='#/'>
+            ES6 Generators Visualized
+          </a>
+          <a className='btn btn-primary border-left' href='https://github.com/rdsubhas/es6-generators-visualized' target='_blank'>
             <i className='fa fa-github fa-lg'></i>
           </a>
-          <a className='btn h3 mxn1' href='#/'>
-            ES6 Generators Visualized
+          <a className='btn btn-primary border-left' href='https://davidwalsh.name/es6-generators' target='_blank'>
+            <i className='fa fa-pencil-square fa-lg'></i>
           </a>
         </div>
         <div className='right'>
-          <a className='btn btn-primary' onClick={this.doToggleDropdown}>
-            <span>{FILE_NAMES[this.props.fileName] || 'Examples'}</span>
+          <a className={cx('btn btn-primary', { hide: !hasPrev })} href={'#/example/' + exampleIndex}>
+            <i className='fa fa-chevron-left'></i>
+          </a>
+          <a className='btn btn-primary border-left border-right' onClick={this.doToggleDropdown}>
+            <span>{EXAMPLES[exampleIndex] || 'Examples'}</span>
             <i className='fa fa-fw fa-angle-down'></i>
           </a>
+          <a className={cx('btn btn-primary', { hide: !hasNext })} href={'#/example/' + (exampleIndex+2)}>
+            <i className='fa fa-chevron-right'></i>
+          </a>
+
           <div className={cx('fixed top-0 right-0 bottom-0 left-0', { hide: !this.state.dropdownOpen })} onClick={this.doToggleDropdown}></div>
           <div className={cx('fixed top-0 right-0 bottom-0 border-left nowrap silver bg-black', { hide: !this.state.dropdownOpen })}>
             <div className='btn block px3 border-bottom'>Examples</div>
-            {this.renderMenu()}
+            {EXAMPLES.map((title, exampleId) => (
+              <a key={exampleId} className='btn block px3 border-bottom' href={'#/example/' + (exampleId+1)}>
+                {title}
+              </a>
+            ))}
           </div>
         </div>
       </nav>
     )
-  }
-
-  renderMenu () {
-    let menu = []
-    for (let fileName in FILE_NAMES) {
-      menu.push(
-        <a key={fileName} className='btn block px3 border-bottom' href={'#/example/' + fileName}>
-          {FILE_NAMES[fileName]}
-        </a>
-      )
-    }
-    return menu
   }
 
   doToggleDropdown () {

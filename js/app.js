@@ -7,7 +7,7 @@ class App extends React.Component {
   render () {
     return (
       <div className='code'>
-        <Nav fileName={this.props.params.fileName} />
+        <Nav exampleId={this.props.params.exampleId} />
         {this.props.children}
       </div>
     )
