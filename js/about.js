@@ -19,7 +19,7 @@ const About = (props) => {
         <p className='mt3'>
           Built with <a href='https://facebook.github.io/react/' target='_blank'>
           React</a> and <a href='http://www.basscss.com/' target='_blank'>
-          Basscss</a>. Fork it on <a href='https://github.com/rdsubhas/es6-generators-visualized'>
+          Basscss</a>. Fork it on <a href='https://github.com/rdsubhas/es6-generators-visualized' target='_blank'>
           GitHub</a>.
         </p>
       </div>
