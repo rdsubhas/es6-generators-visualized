@@ -21,7 +21,7 @@ class Nav extends React.Component {
     return (
       <nav className='code--nav clearfix white bg-blue'>
         <div className='left'>
-          <a className='btn btn-primary' href='https://github.com/rdsubhas/es6-genvis' target='_blank'>
+          <a className='btn btn-primary' href='https://github.com/rdsubhas/es6-generators-visualized' target='_blank'>
             <i className='fa fa-github fa-lg'></i>
           </a>
           <button className='btn h3 mxn1'>
@@ -29,11 +29,11 @@ class Nav extends React.Component {
           </button>
         </div>
         <div className='right'>
-          <button className='btn btn-primary' onClick={this.doToggleDropdown}>
+          <a className='btn btn-primary' onClick={this.doToggleDropdown}>
             {FILE_NAMES[this.props.fileName]} &#9662;
-          </button>
+          </a>
           <div className={cx('fixed top-0 right-0 bottom-0 left-0', { hide: !this.state.dropdownOpen })} onClick={this.doToggleDropdown}></div>
-          <div className={cx('absolute right-0 nowrap white bg-blue border', { hide: !this.state.dropdownOpen })}>
+          <div className={cx('fixed top-0 right-0 bottom-0 border-left nowrap white bg-blue', { hide: !this.state.dropdownOpen })}>
             {this.renderMenu()}
           </div>
         </div>
@@ -45,9 +45,9 @@ class Nav extends React.Component {
     let menu = []
     for (let fileName in FILE_NAMES) {
       menu.push(
-        <button key={fileName} className='btn btn-primary block' onClick={this.doLoadFile.bind(null, fileName)}>
+        <a key={fileName} className='btn btn-primary block px3 border-bottom' onClick={this.doLoadFile.bind(null, fileName)}>
           {FILE_NAMES[fileName]}
-        </button>
+        </a>
       )
     }
     return menu
