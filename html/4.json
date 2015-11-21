@@ -1,16 +1,16 @@
 {
   "panes": [{
-    "name": "caller function",
+    "name": "caller (limited to 10 iterations)",
     "lines": [
       "var fib = fibonacci()",
-      "for (var i=0; i<5; i++) { ${i}",
+      "for (var i=0; i<10; i++) { ${i}",
       "  var next = fib.next() ${next}",
       "  console.log(next.value) ${next.value}",
       "}"
     ],
     "stars": [ 2 ]
   }, {
-    "name": "generator function",
+    "name": "unlimited fibonacci generator",
     "lines": [
       "function* fibonacci() {",
       "  var n1 = 0",

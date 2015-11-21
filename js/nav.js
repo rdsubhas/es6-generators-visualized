@@ -5,7 +5,8 @@ import cx from 'classnames'
 const EXAMPLES = [
   'Basic',
   'Return',
-  'Iterator'
+  'Iterator',
+  'Fibonacci'
 ]
 
 class Nav extends React.Component {
@@ -42,7 +43,9 @@ class Nav extends React.Component {
             <i className='fa fa-chevron-left'></i>
           </a>
           <a className='btn btn-primary border-left border-right' onClick={this.doToggleDropdown}>
-            <span>{EXAMPLES[exampleIndex] || 'Examples'}</span>
+            <span>
+              {exampleIndex >= 0 ? `${exampleIndex+1}. ${EXAMPLES[exampleIndex]}` : 'Examples'}
+            </span>
             <i className='fa fa-fw fa-angle-down'></i>
           </a>
           <a className={cx('btn btn-primary', { hide: !hasNext })} href={'#/example/' + (exampleIndex+2)}>
@@ -52,9 +55,9 @@ class Nav extends React.Component {
           <div className={cx('fixed top-0 right-0 bottom-0 left-0', { hide: !this.state.dropdownOpen })} onClick={this.doToggleDropdown}></div>
           <div className={cx('fixed top-0 right-0 bottom-0 border-left nowrap silver bg-black', { hide: !this.state.dropdownOpen })}>
             <div className='btn block px3 border-bottom'>Examples</div>
-            {EXAMPLES.map((title, exampleId) => (
-              <a key={exampleId} className='btn block px3 border-bottom' href={'#/example/' + (exampleId+1)}>
-                {title}
+            {EXAMPLES.map((title, exampleIndex) => (
+              <a key={exampleIndex} className='btn block px3 border-bottom' href={'#/example/' + (exampleIndex+1)}>
+                {exampleIndex+1}. {title}
               </a>
             ))}
           </div>
