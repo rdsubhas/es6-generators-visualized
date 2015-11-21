@@ -11,8 +11,7 @@ const I_ACTIVE_LINE = 1
 const I_UPDATED_VARS = 2
 const I_HIGHLIGHT_REGEX = 3
 
-const PLAY_SPEED_NORMAL = 500
-const PLAY_SPEED_FAST = 500
+const PLAY_SPEED_MULTIPLIER = 300
 
 class Workspace extends React.Component {
 
@@ -36,7 +35,7 @@ class Workspace extends React.Component {
       highlights: [],
 
       playing: false,
-      playSpeed: PLAY_SPEED_NORMAL,
+      playSpeed: 0,
       pauseOnPaneChange: true
     }
   }
@@ -46,11 +45,18 @@ class Workspace extends React.Component {
   }
 
   doTogglePlay () {
-    this.setState({ playing: !this.state.playing, playSpeed: PLAY_SPEED_NORMAL, pauseOnPaneChange: true })
+    let newPlaying = !this.state.playing
+    if (newPlaying) {
+      this.state.playing = true
+      this.doStepNext()
+    } else {
+      this.setState({ playing: false })
+    }
   }
 
-  doPlayEnd () {
-    this.setState({ playing: !this.state.playing, playSpeed: PLAY_SPEED_FAST, pauseOnPaneChange: false })
+  doTogglePlaySpeed() {
+    let newPlaySpeed = (this.state.playSpeed + 1) % 3
+    this.setState({ playSpeed: newPlaySpeed })
   }
 
   doStepFirst () {
@@ -74,6 +80,20 @@ class Workspace extends React.Component {
       }
       this.setState(state)
     }
+  }
+
+  doStepLast () {
+    if (this.props.panes.length > 0 && this.state.step < (this.props.steps.length - 1)) {
+      let state = this._getInitialState()
+      for (let i = 0; i < this.props.steps.length; i++) {
+        this._computeNext(state, this.props)
+      }
+      this.setState(state)
+    }
+  }
+
+  doToggleBreak () {
+    this.setState({ pauseOnPaneChange: !this.state.pauseOnPaneChange })
   }
 
   _reset (props) {
@@ -105,25 +125,31 @@ class Workspace extends React.Component {
   render () {
     return (
       <div className='code--workspace'>
-        <Controls playing={this.state.playing} step={this.state.step} numSteps={this.props.steps.length}
-          doTogglePlay={this.doTogglePlay} doPlayEnd={this.doPlayEnd}
-          doStepNext={this.doStepNext} doStepFirst={this.doStepFirst} doStepBack={this.doStepBack} />
+        <Controls playing={this.state.playing} step={this.state.step} numSteps={this.props.steps.length} 
+          pauseOnPaneChange={this.state.pauseOnPaneChange} playSpeed={this.state.playSpeed}
+          doTogglePlay={this.doTogglePlay} doToggleBreak={this.doToggleBreak} doTogglePlaySpeed={this.doTogglePlaySpeed}
+          doStepFirst={this.doStepFirst} doStepBack={this.doStepBack} 
+          doStepNext={this.doStepNext} doStepLast={this.doStepLast} />
+
         <div className='code--panes'>
-          {this.props.panes.map((pane, i) => {
-            return <Pane key={i} name={pane.name} lines={pane.lines} stars={pane.stars}
-                position={this.state.positions[i]} active={this.state.activePane === i}
-                vars={this.state.activeVars} highlight={this.state.highlights[i]} />
-          })}
+          {this.renderPanes()}
         </div>
       </div>
     )
   }
 
+  renderPanes () {
+    return this.props.panes.map((pane, i) => {
+      return <Pane key={i} name={pane.name} lines={pane.lines} stars={pane.stars}
+          position={this.state.positions[i]} active={this.state.activePane === i}
+          vars={this.state.activeVars} highlight={this.state.highlights[i]} />
+    })
+  }
+
   componentDidUpdate () {
     if (this.state.playing) {
-      this.setTimeout(() => {
-        this.doStepNext()
-      }, this.state.playSpeed)
+      let interval = (3 - this.state.playSpeed) * PLAY_SPEED_MULTIPLIER
+      this.setTimeout(this.doStepNext, interval)
     }
   }
 

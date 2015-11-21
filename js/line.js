@@ -12,7 +12,6 @@ const Line = (props) => {
 
   if (props.star) {
     star = <i className='fa fa-star'></i>
-    console.log(star)
   }
 
   return (

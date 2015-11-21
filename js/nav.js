@@ -3,8 +3,7 @@ import ReactEs6 from './react-es6'
 import cx from 'classnames'
 
 const FILE_NAMES = {
-  'fibonacci.json' : 'Fibonacci',
-  'pingpong.json' : 'Ping Pong'
+  '1.json' : '1 Basic'
 }
 
 class Nav extends React.Component {
@@ -28,7 +27,7 @@ class Nav extends React.Component {
           </button>
         </div>
         <div className='right'>
-          <label className='inline-block px1'>Example: </label>
+          <label className='inline-block px1'>Level: </label>
           <button className='btn btn-primary' onClick={this.doToggleDropdown}>
             {FILE_NAMES[this.props.fileName]} &#9662;
           </button>

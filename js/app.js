@@ -15,7 +15,9 @@ const T_INSPECT_REPLACEMENT = '<em>$1: \${inspectVariable($1)}</em>'
 
 function inspectVariable (value) {
   if (isNumber(value) || !isEmpty(value)) {
-    return JSON.stringify(value).replace(T_UNQUOTE_REGEX, '$1:')
+    return JSON.stringify(value)
+      .replace(T_UNQUOTE_REGEX, '$1:')
+      .replace('"undefined"', 'undefined')
   }
 }
 
@@ -36,7 +38,7 @@ class App extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      fileName: 'fibonacci.json',
+      fileName: '1.json',
       panes: [],
       steps: [],
       vars: {}
@@ -59,7 +61,9 @@ class App extends React.Component {
           return pane
         }),
         steps: data.steps.map((step) => {
-          step[I_HIGHLIGHT_REGEX] = new RegExp('(' + step[I_HIGHLIGHT_REGEX] + ')')
+          if (step[I_HIGHLIGHT_REGEX]) {
+            step[I_HIGHLIGHT_REGEX] = new RegExp('(' + step[I_HIGHLIGHT_REGEX] + ')')
+          }
           return step
         }),
         vars: data.vars
