@@ -1,6 +1,6 @@
 {
   "panes": [{
-    "name": "caller",
+    "name": "iterator",
     "lines": [
       "for (var v of foo()) { ${next}",
       " console.log(v) ${v}",
