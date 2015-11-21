@@ -5,19 +5,22 @@ const About = (props) => {
     <div className='code--about'>
       <div className='container'>
         <h2 className='h1'>ES6 Generators</h2>
-        <p>
-          ES6 Generators are awesome, but difficult to explain
-          because the control flow keeps going back and forth.
-          You can get a value, you can also send a value into it,
-          like GOTO on steroids!
+        <p className='h3'>
+          ES6 Generators are awesome, but difficult to explain.
+          The control flow keeps going back and forth.
+          David Walsh has written <a href='https://davidwalsh.name/es6-generators' target='_blank'>
+          a series of articles</a> on it. This is an attempt to visualize them interactively.
         </p>
         <p>
-          David Walsh has written a <a href='https://davidwalsh.name/es6-generators' target='_blank'>
-          series of articles</a> on it. This is an attempt to visualize those code examples 
-          (plus a few more I have thrown in).
+          <a href='#/example/1' className='btn btn-primary h3 p2'>
+            Start Exploring <i className='fa fa-angle-right'></i>
+          </a>
         </p>
-        <p className='center'>
-          <a href='#/example/1' className='btn btn-primary h3 p2'>Start Exploring!</a>
+        <p className='mt3'>
+          Built with <a href='https://facebook.github.io/react/' target='_blank'>
+          React</a> and <a href='http://www.basscss.com/' target='_blank'>
+          Basscss</a>. Fork it on <a href='https://github.com/rdsubhas/es6-generators-visualized'>
+          GitHub</a>.
         </p>
       </div>
     </div>
