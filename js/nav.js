@@ -3,7 +3,9 @@ import ReactEs6 from './react-es6'
 import cx from 'classnames'
 
 const FILE_NAMES = {
-  '1.json' : '1. Basic'
+  '1.json' : '1. Basic',
+  'fibonacci.json' : '2. Fibonacci',
+  'pingpong.json' : '3. Ping Pong'
 }
 
 class Nav extends React.Component {
@@ -31,7 +33,7 @@ class Nav extends React.Component {
             {FILE_NAMES[this.props.fileName]} &#9662;
           </button>
           <div className={cx('fixed top-0 right-0 bottom-0 left-0', { hide: !this.state.dropdownOpen })} onClick={this.doToggleDropdown}></div>
-          <div className={cx('absolute m1 right-0 nowrap white bg-blue rounded', { hide: !this.state.dropdownOpen })}>
+          <div className={cx('absolute right-0 nowrap white bg-blue border', { hide: !this.state.dropdownOpen })}>
             {this.renderMenu()}
           </div>
         </div>
