@@ -21,27 +21,15 @@ class Workspace extends React.Component {
     vars: {}
   }
 
-  constructor (props) {
-    super(props)
+  constructor (...args) {
+    super(...args)
     this.state = this._getInitialState()
   }
 
-  _getInitialState () {
-    return {
-      step: -1,
-      activePane: 0,
-      activeVars: cloneDeep(this.props.vars || {}),
-      positions: [],
-      highlights: [],
-
-      playing: false,
-      playSpeed: 0,
-      pauseOnPaneChange: false
-    }
-  }
-
   componentWillReceiveProps (nextProps) {
-    this._reset(nextProps)
+    this.props = nextProps
+    this.state.step = -1
+    this.doStepFirst()
   }
 
   doTogglePlay () {
@@ -60,50 +48,58 @@ class Workspace extends React.Component {
   }
 
   doStepFirst () {
-    this._reset(this.props)
+    this._gotoStep(0)
   }
 
   doStepNext () {
-    if (this.props.panes.length > 0 && this.state.step < (this.props.steps.length - 1)) {
-      let state = this._computeNext(cloneDeep(this.state), this.props)
-      this.setState(state)
-    } else {
-      this.setState({ playing: false })
-    }
+    this._gotoStep(this.state.step + 1)
   }
 
   doStepBack () {
-    if (this.props.panes.length > 0 && this.state.step > 0) {
-      let state = this._getInitialState()
-      for (let i = 0; i < this.state.step; i++) {
-        this._computeNext(state, this.props)
-      }
-      this.setState(state)
-    }
+    this._gotoStep(this.state.step - 1)
   }
 
   doStepLast () {
-    if (this.props.panes.length > 0 && this.state.step < (this.props.steps.length - 1)) {
-      let state = this._getInitialState()
-      for (let i = 0; i < this.props.steps.length; i++) {
-        this._computeNext(state, this.props)
-      }
-      this.setState(state)
-    }
+    this._gotoStep(this.props.steps.length - 1)
   }
 
   doToggleBreak () {
     this.setState({ pauseOnPaneChange: !this.state.pauseOnPaneChange })
   }
 
-  _reset (props) {
-    let state = this._getInitialState()
-    state.activeVars = cloneDeep(props.vars)
-    this.setState(this._computeNext(state, props))
+  _getInitialState () {
+    return {
+      step: -1,
+      activePane: 0,
+      activeVars: cloneDeep(this.props.vars || {}),
+      positions: [],
+      highlights: [],
+
+      playing: false,
+      playSpeed: 0,
+      pauseOnPaneChange: false
+    }
   }
 
-  _computeNext (state, props) {
+  _gotoStep (step) {
+    if (step >=0 && step < this.props.steps.length && this.props.panes.length > 0) {
+      let state = (this.state.step < 0 || step < this.state.step) ? this._getInitialState() : cloneDeep(this.state)
+      for (let i = state.step+1; i <= step; i++) {
+        this._computeNextStep(state, this.props)
+      }
+      this.setState(state)
+    } else {
+      this.setState({ playing: false })
+    }
+  }
+
+  _computeNextStep (state, props) {
     let step = state.step + 1
+    if (props.panes.length === 0 || step < 0 || step >= props.steps.length) {
+      state.playing = false
+      return state;
+    }
+
     let stepData = props.steps[step]
     let positions = state.positions
     let highlights = state.highlights
@@ -112,7 +108,7 @@ class Workspace extends React.Component {
     let vars = stepData[I_UPDATED_VARS]
     highlights[activePane] = stepData[I_HIGHLIGHT_REGEX]
 
-    return merge(state, {
+    merge(state, {
       step: step,
       activePane: activePane,
       positions: positions,

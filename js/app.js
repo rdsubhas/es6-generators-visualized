@@ -35,8 +35,8 @@ function templatify (lines) {
 
 class App extends React.Component {
 
-  constructor (props) {
-    super(props)
+  constructor (...args) {
+    super(...args)
     this.state = {
       fileName: '1.json',
       panes: [],

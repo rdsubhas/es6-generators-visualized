@@ -34,6 +34,7 @@ class Nav extends React.Component {
           </a>
           <div className={cx('fixed top-0 right-0 bottom-0 left-0', { hide: !this.state.dropdownOpen })} onClick={this.doToggleDropdown}></div>
           <div className={cx('fixed top-0 right-0 bottom-0 border-left nowrap white bg-blue', { hide: !this.state.dropdownOpen })}>
+            <div className='btn block px3 border-bottom'>Examples</div>
             {this.renderMenu()}
           </div>
         </div>
