@@ -6,6 +6,7 @@ var connect = require('gulp-connect')
 var rename = require('gulp-rename')
 var sass = require('gulp-sass')
 var ghPages = require('gulp-gh-pages')
+var jsonminify = require('gulp-jsonminify')
 
 gulp.task('connect', function () {
   connect.server({
@@ -29,7 +30,7 @@ gulp.task('browserify', function () {
 })
 
 gulp.task('sass', function () {
-  return gulp.src('./css/**/*.scss')
+  return gulp.src('./css/app.scss')
     .pipe(sass({
       outputStyle: 'compressed',
       includePaths: [ './node_modules/basscss-sass' ]
@@ -69,7 +70,13 @@ gulp.task('uglify', ['browserify'], function () {
     .pipe(gulp.dest('build'))
 })
 
-gulp.task('deploy', ['build', 'uglify'], function () {
+gulp.task('minify-json', function () {
+  return gulp.src('html/*.json', { base: 'html' })
+    .pipe(jsonminify())
+    .pipe(gulp.dest('build'))
+})
+
+gulp.task('deploy', ['build', 'uglify', 'minify-json'], function () {
   return gulp.src('./build/**')
     .pipe(ghPages())
 })
