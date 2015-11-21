@@ -41,26 +41,19 @@ gulp.task('sass', function () {
 })
 
 gulp.task('html', function () {
-  return gulp.src('./html/**/*')
+  return gulp.src('./html/index.html', { base: './html' })
+    .pipe(gulp.dest('build'))
+})
+
+gulp.task('minify-json', function () {
+  return gulp.src('./html/*.json', { base: './html' })
+    .pipe(jsonminify())
     .pipe(gulp.dest('build'))
 })
 
 gulp.task('reload', function () {
   return gulp.src('./build/**/*')
     .pipe(connect.reload())
-})
-
-gulp.task('watch', function () {
-  gulp.watch(['js/**/*.js', 'js/**/*.jsx'], function () {
-    gulp.start('browserify')
-  })
-  gulp.watch(['css/**/*.scss'], function () {
-    gulp.start('sass')
-  })
-  gulp.watch([ 'html/**/*' ], function () {
-    gulp.start('html')
-  })
-  gulp.watch([ 'build/**' ], ['reload'])
 })
 
 gulp.task('uglify', ['browserify'], function () {
@@ -70,17 +63,27 @@ gulp.task('uglify', ['browserify'], function () {
     .pipe(gulp.dest('build'))
 })
 
-gulp.task('minify-json', function () {
-  return gulp.src('html/*.json', { base: 'html' })
-    .pipe(jsonminify())
-    .pipe(gulp.dest('build'))
-})
-
-gulp.task('deploy', ['build', 'uglify', 'minify-json'], function () {
+gulp.task('deploy', ['build', 'uglify'], function () {
   return gulp.src('./build/**')
     .pipe(ghPages())
 })
 
-gulp.task('build', ['browserify', 'sass', 'html'])
+gulp.task('watch', function () {
+  gulp.watch(['js/**/*.js', 'js/**/*.jsx'], function () {
+    gulp.start('browserify')
+  })
+  gulp.watch(['css/**/*.scss'], function () {
+    gulp.start('sass')
+  })
+  gulp.watch([ 'html/**/*.html' ], function () {
+    gulp.start('html')
+  })
+  gulp.watch([ 'html/**/*.json' ], function () {
+    gulp.start('minify-json')
+  })
+  gulp.watch([ 'build/**' ], ['reload'])
+})
+
+gulp.task('build', ['browserify', 'sass', 'html', 'minify-json'])
 gulp.task('dev', ['build', 'connect', 'watch'])
 gulp.task('default', ['serve'])
