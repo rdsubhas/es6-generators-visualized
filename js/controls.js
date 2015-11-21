@@ -47,6 +47,7 @@ class Controls extends React.Component {
             <i className={cx('fa fa-fw fa-random', { red: this.props.pauseOnPaneChange })}></i>
           </button>
         </div>
+        
         <div className='code--progress' style={{width: percent}}>&nbsp;</div>
       </nav>
     )
