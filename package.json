@@ -1,6 +1,6 @@
 {
-  "name": "es6-genvis",
-  "version": "0.0.1",
+  "name": "es6-generators-visualized",
+  "version": "0.1.0",
   "private": true,
   "engines": {
     "node": "4.x"
@@ -15,10 +15,10 @@
     "classnames": "^2.2.0",
     "gulp": "^3.9.0",
     "gulp-connect": "^2.2.0",
-    "gulp-gh-pages": "^0.5.2",
+    "gulp-gh-pages": "^0.5.4",
     "gulp-rename": "^1.2.2",
-    "gulp-sass": "^2.0.4",
-    "gulp-uglify": "^1.4.1",
+    "gulp-sass": "^2.1.0",
+    "gulp-uglify": "^1.5.1",
     "gulp-watch": "^4.3.5",
     "lodash": "^3.10.1",
     "react": "^0.14.3",

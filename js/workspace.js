@@ -36,7 +36,7 @@ class Workspace extends React.Component {
 
       playing: false,
       playSpeed: 0,
-      pauseOnPaneChange: true
+      pauseOnPaneChange: false
     }
   }
 
