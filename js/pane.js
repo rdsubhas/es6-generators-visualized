@@ -1,4 +1,6 @@
 import React from 'react'
+import ReactEs6 from './react-es6'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
 import Line from './line'
 import cx from 'classnames'
 
@@ -39,4 +41,4 @@ class Pane extends React.Component {
 
 }
 
-export default Pane
+export default ReactEs6(Pane).mixin(PureRenderMixin)

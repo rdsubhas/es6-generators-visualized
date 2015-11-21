@@ -1,4 +1,6 @@
 import React from 'react'
+import ReactEs6 from './react-es6'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
 import cx from 'classnames'
 
 class Controls extends React.Component {
@@ -55,4 +57,4 @@ class Controls extends React.Component {
 
 }
 
-export default Controls
+export default ReactEs6(Controls).mixin(PureRenderMixin)

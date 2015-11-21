@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactEs6 from './react-es6'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
 import TimerMixin from 'react-timer-mixin'
 import Pane from './pane'
 import Controls from './controls'
@@ -151,4 +152,4 @@ class Workspace extends React.Component {
 
 }
 
-export default ReactEs6(Workspace).mixins(TimerMixin).autobind()
+export default ReactEs6(Workspace).mixins(TimerMixin, PureRenderMixin).autobind()

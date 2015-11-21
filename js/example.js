@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactEs6 from './react-es6'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
 
 import Workspace from './workspace'
 import reqwest from 'reqwest'
@@ -82,4 +83,4 @@ class Example extends React.Component {
 
 }
 
-export default ReactEs6(Example).autobind()
+export default ReactEs6(Example).mixin(PureRenderMixin).autobind()

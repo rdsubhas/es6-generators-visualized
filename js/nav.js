@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactEs6 from './react-es6'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
 import cx from 'classnames'
 
 const EXAMPLES = [
@@ -72,4 +73,4 @@ class Nav extends React.Component {
 
 }
 
-export default ReactEs6(Nav).autobind()
+export default ReactEs6(Nav).mixin(PureRenderMixin).autobind()
