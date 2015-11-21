@@ -1,17 +1,26 @@
 import React from 'react'
+import ReactEs6 from './react-es6'
 import cx from 'classnames'
+
+const FILE_NAMES = {
+  'fibonacci.json' : 'Fibonacci',
+  'pingpong.json' : 'Ping Pong'
+}
 
 class Nav extends React.Component {
 
-  _navClassFor (tabName) {
-    return cx({ 'btn': true, 'bg-darken-2': tabName === this.props.tabName })
+  constructor (...args) {
+    super(...args)
+    this.state = {
+      dropdownOpen: false
+    }
   }
 
   render () {
     return (
       <nav className='code--nav clearfix white bg-blue'>
         <div className='left'>
-          <a className='btn' href='https://github.com/rdsubhas/es6-genvis' target='_blank'>
+          <a className='btn btn-primary' href='https://github.com/rdsubhas/es6-genvis' target='_blank'>
             <i className='fa fa-github fa-lg'></i>
           </a>
           <button className='btn h3 mxn1'>
@@ -19,26 +28,40 @@ class Nav extends React.Component {
           </button>
         </div>
         <div className='right'>
-          <button className={this._navClassFor('fibonacci')} onClick={this.props.doLoadFile.bind(null, 'fibonacci')}>
-            Fibonacci
+          <label className='inline-block px1'>Example: </label>
+          <button className='btn btn-primary' onClick={this.doToggleDropdown}>
+            {FILE_NAMES[this.props.fileName]} &#9662;
           </button>
-          <button className={this._navClassFor('pingpong')} onClick={this.props.doLoadFile.bind(null, 'pingpong')}>
-            Ping Pong
-          </button>
-          <button className={this._navClassFor('mapreduce')} onClick={this.props.doLoadFile.bind(null, 'mapreduce')}>
-            Map Reduce
-          </button>
-          <button className={this._navClassFor('btree')} onClick={this.props.doLoadFile.bind(null, 'btree')}>
-            Binary Tree
-          </button>
-          <button className={this._navClassFor('promisify')} onClick={this.props.doLoadFile.bind(null, 'promisify')}>
-            Promisify
-          </button>
+          <div className={cx('fixed top-0 right-0 bottom-0 left-0', { hide: !this.state.dropdownOpen })} onClick={this.doToggleDropdown}></div>
+          <div className={cx('absolute m1 right-0 nowrap white bg-blue rounded', { hide: !this.state.dropdownOpen })}>
+            {this.renderMenu()}
+          </div>
         </div>
       </nav>
     )
   }
 
+  renderMenu () {
+    let menu = []
+    for (let fileName in FILE_NAMES) {
+      menu.push(
+        <button key={fileName} className='btn btn-primary block' onClick={this.doLoadFile.bind(null, fileName)}>
+          {FILE_NAMES[fileName]}
+        </button>
+      )
+    }
+    return menu
+  }
+
+  doLoadFile (fileName) {
+    this.setState({ dropdownOpen: false })
+    this.props.doLoadFile(fileName)
+  }
+
+  doToggleDropdown () {
+    this.setState({ dropdownOpen: !this.state.dropdownOpen })
+  }
+
 }
 
-export default Nav
+export default ReactEs6(Nav).autobind()

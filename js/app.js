@@ -36,7 +36,7 @@ class App extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      tabName: 'fibonacci',
+      fileName: 'fibonacci.json',
       panes: [],
       steps: [],
       vars: {}
@@ -44,16 +44,16 @@ class App extends React.Component {
   }
 
   componentDidMount () {
-    this.doLoadFile(this.state.tabName)
+    this.doLoadFile(this.state.fileName)
   }
 
-  doLoadFile (tabName) {
+  doLoadFile (fileName) {
     reqwest({
-      url: tabName + '.json',
+      url: fileName,
       type: 'json'
     }).then((data) => {
       this.setState({
-        tabName: tabName,
+        fileName: fileName,
         panes: data.panes.map((pane) => {
           pane.lines = templatify(pane.lines)
           return pane
@@ -70,7 +70,7 @@ class App extends React.Component {
   render () {
     return (
       <div className='code'>
-        <Nav tabName={this.state.tabName} doLoadFile={this.doLoadFile} />
+        <Nav fileName={this.state.fileName} doLoadFile={this.doLoadFile} />
         <Workspace panes={this.state.panes} steps={this.state.steps} vars={this.state.vars} />
       </div>
     )
