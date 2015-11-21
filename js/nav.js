@@ -30,10 +30,11 @@ class Nav extends React.Component {
         </div>
         <div className='right'>
           <a className='btn btn-primary' onClick={this.doToggleDropdown}>
-            {FILE_NAMES[this.props.fileName]} &#9662;
+            <span>{FILE_NAMES[this.props.fileName]}</span>
+            <i className='fa fa-fw fa-angle-down'></i>
           </a>
           <div className={cx('fixed top-0 right-0 bottom-0 left-0', { hide: !this.state.dropdownOpen })} onClick={this.doToggleDropdown}></div>
-          <div className={cx('fixed top-0 right-0 bottom-0 border-left nowrap white bg-blue', { hide: !this.state.dropdownOpen })}>
+          <div className={cx('fixed top-0 right-0 bottom-0 border-left nowrap silver bg-black', { hide: !this.state.dropdownOpen })}>
             <div className='btn block px3 border-bottom'>Examples</div>
             {this.renderMenu()}
           </div>
@@ -46,7 +47,7 @@ class Nav extends React.Component {
     let menu = []
     for (let fileName in FILE_NAMES) {
       menu.push(
-        <a key={fileName} className='btn btn-primary block px3 border-bottom' onClick={this.doLoadFile.bind(null, fileName)}>
+        <a key={fileName} className='btn block px3 border-bottom' onClick={this.doLoadFile.bind(null, fileName)}>
           {FILE_NAMES[fileName]}
         </a>
       )
