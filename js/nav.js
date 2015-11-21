@@ -4,8 +4,8 @@ import cx from 'classnames'
 
 const FILE_NAMES = {
   '1.json' : '1. Basic',
-  'fibonacci.json' : '2. Fibonacci',
-  'pingpong.json' : '3. Ping Pong'
+  '2.json' : '2. Return',
+  '3.json' : '3. Iterator'
 }
 
 class Nav extends React.Component {
