@@ -38,6 +38,7 @@ class Example extends React.Component {
   constructor (...args) {
     super(...args)
     this.state = {
+      loading: true,
       panes: [],
       steps: [],
       vars: {}
@@ -45,13 +46,19 @@ class Example extends React.Component {
   }
 
   componentDidMount () {
-    this.doLoadFile()
-  }
-
-  componentDidUpdate (prevProps, prevState) {
-    if (prevProps.params.exampleId !== this.props.params.exampleId) {
+    if (this.state.loading) {
       this.doLoadFile()
     }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.params.exampleId !== this.props.params.exampleId) {
+      this.setState({ loading: true })
+    }
+  }
+
+  componentDidUpdate () {
+    this.componentDidMount()
   }
 
   doLoadFile () {
@@ -60,6 +67,7 @@ class Example extends React.Component {
       type: 'json'
     }).then((data) => {
       this.setState({
+        loading: false,
         panes: data.panes.map((pane) => {
           pane.lines = templatify(pane.lines)
           return pane
@@ -77,7 +85,7 @@ class Example extends React.Component {
 
   render () {
     return (
-      <Workspace panes={this.state.panes} steps={this.state.steps} vars={this.state.vars} />
+      <Workspace loading={this.state.loading} panes={this.state.panes} steps={this.state.steps} vars={this.state.vars} />
     )
   }
 

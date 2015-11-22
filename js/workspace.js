@@ -4,6 +4,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin'
 import TimerMixin from 'react-timer-mixin'
 import Pane from './pane'
 import Controls from './controls'
+import cx from 'classnames'
 import merge from 'lodash/object/merge'
 import cloneDeep from 'lodash/lang/cloneDeep'
 
@@ -17,6 +18,7 @@ const PLAY_SPEED_MULTIPLIER = 300
 class Workspace extends React.Component {
 
   static defaultProps = {
+    loading: true,
     panes: [],
     steps: [],
     vars: {}
@@ -125,7 +127,7 @@ class Workspace extends React.Component {
 
   render () {
     return (
-      <div className='code--workspace'>
+      <div className='code--workspace box'>
         <Controls playing={this.state.playing} step={this.state.step} numSteps={this.props.steps.length} 
           pauseOnPaneChange={this.state.pauseOnPaneChange} playSpeed={this.state.playSpeed}
           doTogglePlay={this.doTogglePlay} doToggleBreak={this.doToggleBreak} doTogglePlaySpeed={this.doTogglePlaySpeed}
@@ -134,6 +136,12 @@ class Workspace extends React.Component {
 
         <div className='code--panes'>
           {this.renderPanes()}
+        </div>
+
+        <div className={cx('code--loading box white', { 'hide': !this.props.loading, 'bg-darken-4': this.props.loading })}>
+          <div className='center vertical-center'>
+            <i className='fa fa-4x fa-gear fa-spin'></i>
+          </div>
         </div>
       </div>
     )
