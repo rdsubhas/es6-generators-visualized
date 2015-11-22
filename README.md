@@ -4,37 +4,34 @@
 
 ```
 {
-  "panes": [
+  "panes": [ /* ... array of panes */
     {
       "name": "pane name",
-      "lines": [
-        "line 1 ${variable_substitution}",
-        "line 2 ${variable_substitution}",
-        /* array of lines with optional variables */
-      ],
-      "stars": [
-        1
-        /* array of line numbers which need to be starred */
+      "lines": [ /* array of lines */
+        [
+          "line 1", /* line string */
+          "i", /* optional name of variable to inspect */
+          false /* whether line is a breakpoint or not */
+        ],
+        [ "line 2" ],
+        [ "line 3", "j", true ]
       ]
-    },
-    /* array of panes */
+    }
   ],
 
-  "vars": {
+  "vars": { /* properties defining variables */
     "i": null,
     "j": null,
-    "k": null,
-    /* properties defining variables */
+    "k": null
   },
 
-  "steps": [
+  "steps": [ /* array of steps */
     [
-      0 /* active pane index */,
-      0 /* active line index */,
-      {} /* updated variable values */,
+      0, /* active pane index */
+      0, /* active line index */
+      {}, /* updated variable values */
       "=.+" /* regex of line to highlight */
-    ],
-    /* array of steps */
+    ]
   ]
 }
 ```

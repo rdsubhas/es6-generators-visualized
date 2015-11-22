@@ -2,21 +2,21 @@
   "panes": [{
     "name": "iterator",
     "lines": [
-      "for (var v of foo()) { ${next}",
-      " console.log(v) ${v}",
-      "}"
+      [ "for (var v of foo())", "next" ],
+      [ " console.log(v)", "v" ],
+      [ "}" ]
     ]
   }, {
     "name": "generator with return",
     "lines": [
-      "function *foo() {",
-      "  yield 1",
-      "  yield 2",
-      "  yield 3",
-      "  yield 4",
-      "  yield 5",
-      "  return 6",
-      "}"
+      [ "function *foo() {" ],
+      [ "  yield 1" ],
+      [ "  yield 2" ],
+      [ "  yield 3" ],
+      [ "  yield 4" ],
+      [ "  yield 5" ],
+      [ "  return 6" ],
+      [ "}" ]
     ]
   }],
   "vars": {

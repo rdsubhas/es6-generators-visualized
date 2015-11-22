@@ -4,34 +4,9 @@ import PureRenderMixin from 'react-addons-pure-render-mixin'
 
 import Workspace from './workspace'
 import reqwest from 'reqwest'
-import template from 'lodash/string/template'
-import isEmpty from 'lodash/lang/isEmpty'
-import isNumber from 'lodash/lang/isNumber'
 
 const I_HIGHLIGHT_REGEX = 3
-const T_UNQUOTE_REGEX = /\"([^"]+)\"\:/g
-const T_INSPECT_REGEX = /\$\{(.+)\}/
-const T_INSPECT_REPLACEMENT = '<em>$1: \${inspectVariable($1)}</em>'
-
-function inspectVariable (value) {
-  if (isNumber(value) || !isEmpty(value)) {
-    return JSON.stringify(value)
-      .replace(T_UNQUOTE_REGEX, '$1:')
-      .replace('"undefined"', 'undefined')
-  }
-}
-
-function templatify (lines) {
-  return lines.map((line) => {
-    return template(line.replace(T_INSPECT_REGEX, T_INSPECT_REPLACEMENT), {
-      imports: {
-        isEmpty: isEmpty,
-        isNumber: isNumber,
-        inspectVariable: inspectVariable
-      }
-    })
-  })
-}
+const I_LINE_STR = 0
 
 class Example extends React.Component {
 
@@ -39,6 +14,7 @@ class Example extends React.Component {
     super(...args)
     this.state = {
       loading: true,
+      description: null,
       panes: [],
       steps: [],
       vars: {}
@@ -61,31 +37,31 @@ class Example extends React.Component {
     this.componentDidMount()
   }
 
+  _prepareData (data) {
+    data.loading = false
+    data.steps.forEach((step) => {
+      // precompile regex
+      if (step[I_HIGHLIGHT_REGEX]) {
+        step[I_HIGHLIGHT_REGEX] = new RegExp('(' + step[I_HIGHLIGHT_REGEX] + ')')
+      }
+    })
+    return data
+  }
+
   doLoadFile () {
     reqwest({
       url: this.props.params.exampleId + '.json',
       type: 'json'
     }).then((data) => {
-      this.setState({
-        loading: false,
-        panes: data.panes.map((pane) => {
-          pane.lines = templatify(pane.lines)
-          return pane
-        }),
-        steps: data.steps.map((step) => {
-          if (step[I_HIGHLIGHT_REGEX]) {
-            step[I_HIGHLIGHT_REGEX] = new RegExp('(' + step[I_HIGHLIGHT_REGEX] + ')')
-          }
-          return step
-        }),
-        vars: data.vars
-      })
+      this._prepareData(data)
+      this.setState(data)
     })
   }
 
   render () {
     return (
-      <Workspace loading={this.state.loading} panes={this.state.panes} steps={this.state.steps} vars={this.state.vars} />
+      <Workspace loading={this.state.loading} panes={this.state.panes} 
+        steps={this.state.steps} vars={this.state.vars} description={this.state.description} />
     )
   }
 

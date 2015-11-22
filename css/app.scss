@@ -1,4 +1,5 @@
 $font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Open Sans","SF UI Display","Helvetica Neue",sans-serif;
+$font-family-mono: "Source Code Pro", Consolas, Monaco, "Courier New", monospace;
 
 $paneBackground: #f0f0f0;
 $paneActiveLine: #ffee80;
@@ -105,7 +106,7 @@ body {
 .code--panes {
   position: absolute;
   top: 4rem;
-  bottom: 0;
+  bottom: 0rem;
   width: 100%;
   display: flex;
   border-top: 1px solid $silver;
@@ -121,7 +122,7 @@ body {
   border-right: 1px solid $silver;
 
   .code--table {
-    font-family: "Source Code Pro", Consolas, Monaco, "Courier New", monospace;
+    font-family: $font-family-mono;
     width: 100%;
 
     td, th {
@@ -160,6 +161,7 @@ body {
         font-style: normal;
         font-weight: bold;
         display: inline-block;
+        margin-left: 1rem;
         padding: 0 .5rem;
         border-radius: 2px;
         background-color: $darken-4;
