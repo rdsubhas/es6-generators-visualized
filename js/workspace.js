@@ -24,7 +24,12 @@ class Workspace extends React.Component {
 
   constructor (...args) {
     super(...args)
-    this.state = this._getInitialState()
+    this.state = {
+      step: -1,
+      playSpeed: 0,
+      pauseOnPaneChange: false
+    }
+    this.state = this._computeFirstStep()
   }
 
   componentWillReceiveProps (nextProps) {
@@ -68,25 +73,11 @@ class Workspace extends React.Component {
     this.setState({ pauseOnPaneChange: !this.state.pauseOnPaneChange })
   }
 
-  _getInitialState () {
-    return {
-      step: -1,
-      activePane: 0,
-      activeVars: cloneDeep(this.props.vars || {}),
-      positions: [],
-      highlights: [],
-
-      playing: false,
-      playSpeed: 0,
-      pauseOnPaneChange: false
-    }
-  }
-
   _gotoStep (step) {
     if (step >=0 && step < this.props.steps.length && this.props.panes.length > 0) {
-      let state = (this.state.step < 0 || step < this.state.step) ? this._getInitialState() : cloneDeep(this.state)
+      let state = (this.state.step < 0 || step < this.state.step) ? this._computeFirstStep() : cloneDeep(this.state)
       for (let i = state.step+1; i <= step; i++) {
-        this._computeNextStep(state, this.props)
+        this._computeNextStep(state)
       }
       this.setState(state)
     } else {
@@ -94,14 +85,27 @@ class Workspace extends React.Component {
     }
   }
 
-  _computeNextStep (state, props) {
+  _computeFirstStep () {
+    return {
+      step: -1,
+      activePane: 0,
+      activeVars: cloneDeep(this.props.vars || {}),
+      positions: [],
+      highlights: [],
+      playing: false,
+      playSpeed: this.state.playSpeed,
+      pauseOnPaneChange: this.state.pauseOnPaneChange
+    }
+  }
+
+  _computeNextStep (state) {
     let step = state.step + 1
-    if (props.panes.length === 0 || step < 0 || step >= props.steps.length) {
+    if (this.props.panes.length === 0 || step < 0 || step >= this.props.steps.length) {
       state.playing = false
       return state;
     }
 
-    let stepData = props.steps[step]
+    let stepData = this.props.steps[step]
     let positions = state.positions
     let highlights = state.highlights
     let activePane = stepData[I_ACTIVE_PANE]
@@ -109,12 +113,12 @@ class Workspace extends React.Component {
     let vars = stepData[I_UPDATED_VARS]
     highlights[activePane] = stepData[I_HIGHLIGHT_REGEX]
 
-    merge(state, {
+    return merge(state, {
       step: step,
       activePane: activePane,
+      activeVars: merge(state.activeVars, vars),
       positions: positions,
       highlights: highlights,
-      activeVars: merge(state.activeVars, vars),
       playing: (state.pauseOnPaneChange && activePane !== state.activePane) ? false : state.playing
     })
   }
