@@ -1,12 +1,12 @@
 import React from 'react'
 import ReactEs6 from './react-es6'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
-
 import Workspace from './workspace'
 import reqwest from 'reqwest'
 
 const I_HIGHLIGHT_REGEX = 3
 const I_LINE_STR = 0
+const SEED = new Date().getTime()
 
 class Example extends React.Component {
 
@@ -50,7 +50,7 @@ class Example extends React.Component {
 
   doLoadFile () {
     reqwest({
-      url: this.props.params.exampleId + '.json',
+      url: `${this.props.params.exampleId}.json?${SEED}`,
       type: 'json'
     }).then((data) => {
       this._prepareData(data)
