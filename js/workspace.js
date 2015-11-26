@@ -92,6 +92,7 @@ class Workspace extends React.Component {
       step: -1,
       activePane: 0,
       activeVars: cloneDeep(this.props.vars || {}),
+      stdout: {},
       positions: [],
       highlights: [],
       playing: false,
@@ -102,27 +103,28 @@ class Workspace extends React.Component {
 
   _computeNextStep (state) {
     let step = state.step + 1
+
     if (this.props.panes.length === 0 || step < 0 || step >= this.props.steps.length) {
       state.playing = false
-      return state;
+      return;
     }
 
     let stepData = this.props.steps[step]
-    let positions = state.positions
-    let highlights = state.highlights
     let activePane = stepData[I_ACTIVE_PANE]
-    positions[activePane] = stepData[I_ACTIVE_LINE]
+    let activeLine = stepData[I_ACTIVE_LINE]
     let vars = stepData[I_UPDATED_VARS]
-    highlights[activePane] = stepData[I_HIGHLIGHT_REGEX]
 
-    return merge(state, {
-      step: step,
-      activePane: activePane,
-      activeVars: merge(state.activeVars, vars),
-      positions: positions,
-      highlights: highlights,
-      playing: (state.pauseOnPaneChange && activePane !== state.activePane) ? false : state.playing
-    })
+    state.step = step
+    state.positions[activePane] = activeLine
+    state.highlights[activePane] = stepData[I_HIGHLIGHT_REGEX]
+    state.activePane = activePane
+    state.playing = (state.pauseOnPaneChange && activePane !== state.activePane) ? false : state.playing
+    merge(state.activeVars, vars)
+
+    if (vars && vars.$stdout) {
+      let lineId = this.props.panes[activePane].lines[activeLine].id
+      state.stdout[lineId] = vars.$stdout
+    }
   }
 
   render () {
@@ -150,7 +152,7 @@ class Workspace extends React.Component {
   renderPanes () {
     return this.props.panes.map((pane, i) => {
       return <Pane key={i} name={pane.name} lines={pane.lines} stars={pane.stars}
-          position={this.state.positions[i]} active={this.state.activePane === i}
+          position={this.state.positions[i]} active={this.state.activePane === i} stdout={this.state.stdout}
           vars={this.state.activeVars} highlight={this.state.highlights[i]} />
     })
   }

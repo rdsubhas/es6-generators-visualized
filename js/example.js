@@ -39,13 +39,17 @@ class Example extends React.Component {
 
   _prepareData (data) {
     data.loading = false
+    data.panes.forEach((pane, paneIndex) => {
+      pane.lines.forEach((line, lineIndex) => {
+        line.id = `${paneIndex}-${lineIndex}`
+      })
+    })
     data.steps.forEach((step) => {
       // precompile regex
       if (step[I_HIGHLIGHT_REGEX]) {
         step[I_HIGHLIGHT_REGEX] = new RegExp('(' + step[I_HIGHLIGHT_REGEX] + ')')
       }
     })
-    return data
   }
 
   doLoadFile () {

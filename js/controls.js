@@ -21,7 +21,7 @@ class Controls extends React.Component {
       <nav className='code--controls clearfix'>
         <div className='center'>
           <button className='btn btn-outline' onClick={this.props.doTogglePlaySpeed} title='Play speed'>
-            <i className='fa fa-fw'>{this.props.playSpeed+1}x</i>
+            <small>{this.props.playSpeed+1}x</small>
           </button>
 
           <button className='btn btn-outline' onClick={this.props.doStepFirst} disabled={playing || !hasPrev} title='First step'>

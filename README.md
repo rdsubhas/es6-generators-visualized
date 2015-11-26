@@ -29,7 +29,7 @@
     [
       0, /* active pane index */
       0, /* active line index */
-      {}, /* updated variable values */
+      {}, /* updated variable values, use special variable "$stdout" for console.log */
       "=.+" /* regex of line to highlight */
     ]
   ]
