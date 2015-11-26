@@ -20,7 +20,7 @@ class Line extends React.Component {
     } else {
       value = null
     }
-    return `${inspectVar}: ${value == null ? '' : value}`
+    return `<em>${inspectVar}: ${value == null ? '' : value}</em>`
   }
 
   render() {
