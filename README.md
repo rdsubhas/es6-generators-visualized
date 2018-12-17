@@ -1,5 +1,9 @@
 # ES6 Generators Visualized
 
+> ES6 generators explained visually
+
+Check the deployed version here: http://rdsubhas.github.io/es6-generators-visualized/
+
 ## Walkthrough JSON format
 
 ```
